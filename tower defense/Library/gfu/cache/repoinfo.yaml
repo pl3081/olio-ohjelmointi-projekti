@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cacheType: 1
-  lastUpdatedAtString: 2022-02-07T16:22:51.424+02:00
-  initializedAtString: 2022-02-07T16:22:51.424+02:00
+  lastUpdatedAtString: 2022-02-10T15:38:35.830+02:00
+  initializedAtString: 2022-02-10T15:38:35.830+02:00
   currentGitRemote:
     name: origin
     url: https://github.com/pl3081/olio-ohjelmointi-projekti.git
