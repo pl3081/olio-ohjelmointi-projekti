@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Controls camera movement
-public class cameraControls : MonoBehaviour
+public class CameraControls : MonoBehaviour
 {
-    public float cameraSpeed = 1;
-    public float sensitivity = 2;
+    [SerializeField] float cameraSpeed = 1;
+    [SerializeField] float sensitivity = 2;
 
     private Vector3 startPosition;
     private Vector3 eulerAngle;
