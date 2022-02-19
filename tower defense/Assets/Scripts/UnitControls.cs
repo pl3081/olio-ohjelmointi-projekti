@@ -58,7 +58,8 @@ public class UnitControls : MonoBehaviour
 
     private void Awake()
     {
-        Formate(2, 3f);
+        if(ChosenUnits.Count > 1)
+            Formate(2, 3f);
     }
     void Update()
     {

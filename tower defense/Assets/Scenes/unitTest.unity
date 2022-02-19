@@ -445,17 +445,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &991822670 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 182174140890807854, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
-  m_PrefabInstance: {fileID: 238499890}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9029f7504d90b04428bdf848cc45d8e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1111436795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -513,17 +502,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
---- !u!114 &1111436796 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 182174140890807854, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
-  m_PrefabInstance: {fileID: 1111436795}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9029f7504d90b04428bdf848cc45d8e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1218929675
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,17 +655,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
---- !u!114 &1781057905 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 182174140890807854, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
-  m_PrefabInstance: {fileID: 1781057904}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9029f7504d90b04428bdf848cc45d8e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2095903646 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 182174140890807854, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
@@ -909,9 +876,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChosenUnits:
   - {fileID: 2095903646}
-  - {fileID: 991822670}
-  - {fileID: 1781057905}
-  - {fileID: 1111436796}
 --- !u!114 &2130617334
 MonoBehaviour:
   m_ObjectHideFlags: 0
