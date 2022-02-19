@@ -97,7 +97,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
-  HP: 0
   attackDamage: 20
   attackRange: 10
   attackSpeed: 2

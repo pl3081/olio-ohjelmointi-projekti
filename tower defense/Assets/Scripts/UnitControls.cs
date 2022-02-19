@@ -33,6 +33,33 @@ public class UnitControls : MonoBehaviour
     {
         return ChosenUnits.Contains(unit);
     }
+    private void Formate(int numInRow, float distanceBetween)
+    {
+        int rows = Mathf.CeilToInt(ChosenUnits.Count / (float)numInRow);
+        int count = 0;
+        for(int row = 0; row < rows; row++)
+        {
+            for(int i = 0; i < numInRow; i++)
+            {
+                if (count < ChosenUnits.Count)
+                {
+                    float xMul = i - (numInRow - 1) / 2f;
+                    float yMul = (rows - 1) / 2f - row;
+                    ChosenUnits[count].GroupPosOffset = (Vector3.right * xMul + Vector3.forward * yMul) * distanceBetween;
+                    count++;
+                }
+            }
+        }
+    }
+    private void Deformate(Unit unit)
+    {
+        unit.GroupPosOffset = Vector3.zero;
+    }
+
+    private void Awake()
+    {
+        Formate(2, 3f);
+    }
     void Update()
     {
         if (Input.GetMouseButton(0))

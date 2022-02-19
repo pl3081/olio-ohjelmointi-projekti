@@ -25,20 +25,20 @@ public class CameraControls : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X");
         // by buttons
-        if (Input.GetKey("up"))
+        if (Input.GetKey("w"))
         {
             targetOfView.position += targetOfView.forward * cameraSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("down"))
+        if (Input.GetKey("s"))
         {
             targetOfView.position += -targetOfView.forward * cameraSpeed * Time.deltaTime;
         }
         Vector3 right = Quaternion.Euler(0, 90, 0) * targetOfView.forward;
-        if (Input.GetKey("right"))
+        if (Input.GetKey("d"))
         {
             targetOfView.position += right * cameraSpeed * Time.deltaTime;
         }
-        if (Input.GetKey("left"))
+        if (Input.GetKey("a"))
         {
             targetOfView.position += -right * cameraSpeed * Time.deltaTime;
         }
