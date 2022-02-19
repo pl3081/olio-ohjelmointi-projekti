@@ -41,9 +41,19 @@ public class UnitControls : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                foreach (Unit unit in ChosenUnits)
+                if(hit.collider.tag == "Humanoid")
                 {
-                    unit.MoveTo(hit.point);
+                    foreach (Unit unit in ChosenUnits)
+                    {
+                        unit.SetAttackTarget(hit.transform.GetComponent<Humanoid>());
+                    }
+                }
+                else
+                {
+                    foreach (Unit unit in ChosenUnits)
+                    {
+                        unit.MoveTo(hit.point);
+                    }
                 }
             }
         }
