@@ -13,9 +13,7 @@ public class Humanoid : MonoBehaviour
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed; // in seconds
     float attackCoolDown;               //
-    public Vector3 GroupPosOffset { get; set; } // formation
 
-    Vector3 destination;
     Vector3 lookPos;
     Humanoid attackTarget;
     public Humanoid AttackTarget => attackTarget;
@@ -35,50 +33,45 @@ public class Humanoid : MonoBehaviour
     {
         HP = maxHP;
         status = StatusType.Stopped;
-        navAgent = this.GetComponent<NavMeshAgent>();
+        navAgent = GetComponent<NavMeshAgent>();
     }
 
     public bool MoveTo(Vector3 pos)
     {
+        Stop();
         status = StatusType.Moving;
-        ClearAttackTarget();
-        return SetDestination(pos);
+        navAgent.SetDestination(pos);
+        return true;
     }
     public void Stop()
     {
-        navAgent.SetDestination(this.transform.position);
-        destination = Vector3.zero;
+        status = StatusType.Stopped;
+        attackTarget = null;
+        StopMoving();
     }
     public void SetAttackTarget(Humanoid target)
     {
         status = StatusType.Attacking;
-        Stop();
         attackTarget = target;
-    }
-    public void ClearAttackTarget()
-    {
-        lookPos = Vector3.zero;
-        attackTarget = null;
     }
     public void FaceTarget(Vector3 destination)
     {
         lookPos = destination - this.transform.position;
     }
 
-    private bool SetDestination(Vector3 pos)
+    private void StopMoving()
     {
-        destination = pos;
-        Vector3 offset = Quaternion.LookRotation((pos + GroupPosOffset - this.transform.position).normalized) * GroupPosOffset;
-        navAgent.SetDestination(pos + offset);
-        return true; // todo check if not out of map and ai could walk there
+        navAgent.SetDestination(this.transform.position);
+        lookPos = Vector3.zero;
     }
     private bool Attack(Humanoid target)
     {
         if (Vector3.Distance(this.transform.position, target.transform.position) < this.attackRange)
         {
-            if(this.destination == target.transform.position)
+            Vector3 vectorXZ = Vector3.forward + Vector3.right;
+            if (Vector3.Scale(navAgent.destination, vectorXZ) == Vector3.Scale(target.transform.position, vectorXZ))
             {
-                this.Stop();
+                StopMoving();
             }
             FaceTarget(target.transform.position);
             if (attackCoolDown <= 0 && IsFacedTarget(target.transform.position))
@@ -90,7 +83,7 @@ public class Humanoid : MonoBehaviour
         }
         else
         {
-            SetDestination(target.transform.position);
+            navAgent.SetDestination(target.transform.position);
         }
         return false;
     }
@@ -120,8 +113,7 @@ public class Humanoid : MonoBehaviour
         {
             if (attackTarget.HP <= 0)
             {
-                status = StatusType.Stopped;
-                attackTarget = null;
+                Stop();
             }
             else
             {
@@ -133,7 +125,6 @@ public class Humanoid : MonoBehaviour
             if (this.transform.position == this.navAgent.destination)
             {
                 status = StatusType.Stopped;
-                destination = Vector3.zero;
             }
         }
     }
