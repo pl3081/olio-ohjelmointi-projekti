@@ -13,7 +13,7 @@ public class Humanoid : MonoBehaviour
     public int AttackDamage => attackDamage;
     public float AttackRange => attackRange;
     public float AttackSpeed => attackSpeed;
-    public int HP;
+    public int HP { get; set; }
     
     float attackCoolDown;
 

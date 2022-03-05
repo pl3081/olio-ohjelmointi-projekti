@@ -41,6 +41,8 @@ public class Unit : Humanoid
         }
         void AttackEnemy()
         {
+            if (unit.AttackTarget == null)
+                return;
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
                 if (unit.IsDestination(unit.AttackTarget.transform.position))
