@@ -43,15 +43,14 @@ public class Unit : Humanoid
         {
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
-                Vector3 vectorXZ = Vector3.forward + Vector3.right;
-                if (Vector3.Scale(navAgent.destination, vectorXZ) == Vector3.Scale(unit.AttackTarget.transform.position, vectorXZ))
+                if (unit.IsDestination(unit.AttackTarget.transform.position))
                 {
                     unit.StopMoving();
                 }
                 unit.FaceTarget(unit.AttackTarget.transform.position);
                 unit.Attack();
             }
-            else
+            else if(unit.Status == StatusType.Attacking)
             {
                 navAgent.SetDestination(unit.AttackTarget.transform.position);
             }
@@ -78,6 +77,12 @@ public class Unit : Humanoid
             if(unit.Status == StatusType.Attacking)
             {
                 ChooseAttackTarget();
+                AttackEnemy();
+            }
+            else if(unit.Status == StatusType.Stopped)
+            {
+                ChooseAttackTarget();
+                unit.SetStatus(StatusType.Stopped);
                 AttackEnemy();
             }
         }

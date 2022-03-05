@@ -43,6 +43,10 @@ public class Humanoid : MonoBehaviour
         status = StatusType.Attacking;
         attackTarget = target;
     }
+    public void SetStatus(StatusType status)
+    {
+        this.status = status;
+    }
     public void FaceTarget(Vector3 destination)
     {
         lookPos = destination - this.transform.position;
@@ -68,6 +72,13 @@ public class Humanoid : MonoBehaviour
             return true;
         }
         return false;
+    }
+    public bool IsDestination(Vector3 pos)
+    {
+        Vector3 vectorXZ = Vector3.forward + Vector3.right;
+        Vector3 destination = Vector3.Scale(navAgent.destination, vectorXZ);
+        Vector3 targetPos = Vector3.Scale(pos, vectorXZ);
+        return destination == targetPos;
     }
 
     private void RotateToDir(Vector3 dir)
@@ -102,13 +113,13 @@ public class Humanoid : MonoBehaviour
         {
             if (attackTarget.HP <= 0)
             {
-                Destroy(AttackTarget.gameObject); // todo create dead body
+                Destroy(AttackTarget.gameObject); // todo call targets dying function
                 SetAttackTarget(null);
             }
         }
         if(status == StatusType.Moving)
         {
-            if (this.transform.position == this.navAgent.destination)
+            if (IsDestination(this.transform.position))
             {
                 status = StatusType.Stopped;
             }
