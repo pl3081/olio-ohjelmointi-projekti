@@ -74,7 +74,7 @@ public class UnitControls : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if(hit.collider.tag == "Humanoid")
+                if(hit.collider.tag == "Enemy")
                 {
                     foreach (Unit unit in ChosenUnits)
                     {

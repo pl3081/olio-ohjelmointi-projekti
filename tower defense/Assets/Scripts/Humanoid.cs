@@ -6,13 +6,16 @@ using UnityEngine.AI;
 public class Humanoid : MonoBehaviour
 {
     [SerializeField] int maxHP;
-    public int HP { get; set; }
-    public int MaxHP => maxHP;
-
     [SerializeField] int attackDamage;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed; // in seconds
-    float attackCoolDown;               //
+    public int MaxHP => maxHP;
+    public int AttackDamage => attackDamage;
+    public float AttackRange => attackRange;
+    public float AttackSpeed => attackSpeed;
+    public int HP;
+    
+    float attackCoolDown;
 
     Vector3 lookPos;
     Humanoid attackTarget;
@@ -27,14 +30,6 @@ public class Humanoid : MonoBehaviour
     private StatusType status;
     public StatusType Status => status;
     NavMeshAgent navAgent;
-
-
-    private void Awake()
-    {
-        HP = maxHP;
-        status = StatusType.Stopped;
-        navAgent = GetComponent<NavMeshAgent>();
-    }
 
     public bool MoveTo(Vector3 pos)
     {
@@ -99,7 +94,13 @@ public class Humanoid : MonoBehaviour
         return dot > 0.95f;
     }
 
-    private void Update()
+    protected virtual void Awake()
+    {
+        HP = maxHP;
+        status = StatusType.Stopped;
+        navAgent = GetComponent<NavMeshAgent>();
+    }
+    protected virtual void Update()
     {
         if(lookPos != Vector3.zero && !IsFacedTarget(lookPos))
         {
@@ -113,7 +114,8 @@ public class Humanoid : MonoBehaviour
         {
             if (attackTarget.HP <= 0)
             {
-                Stop();
+                Destroy(AttackTarget.gameObject); // todo create dead body
+                SetAttackTarget(null);
             }
             else
             {
