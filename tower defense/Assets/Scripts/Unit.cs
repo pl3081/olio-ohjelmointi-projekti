@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Unit : Humanoid
 {
@@ -13,14 +14,15 @@ public class Unit : Humanoid
     {
         GameObject[] enemies => GameObject.FindGameObjectsWithTag("Enemy");
         Unit unit;
+        NavMeshAgent navAgent;
         public AIControl(Unit unit)
         {
             this.unit = unit;
+            navAgent = unit.gameObject.GetComponent<NavMeshAgent>();
         }
         
         Enemy FindNearestEnemy()
         {
-            print(enemies.Length);
             GameObject nearestEnemy = null;
             float nearestDist = Mathf.Infinity;
             foreach(GameObject enemy in enemies)
@@ -37,23 +39,46 @@ public class Unit : Humanoid
             else
                 return nearestEnemy.GetComponent<Enemy>();
         }
+        void AttackEnemy()
+        {
+            if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
+            {
+                Vector3 vectorXZ = Vector3.forward + Vector3.right;
+                if (Vector3.Scale(navAgent.destination, vectorXZ) == Vector3.Scale(unit.AttackTarget.transform.position, vectorXZ))
+                {
+                    unit.StopMoving();
+                }
+                unit.FaceTarget(unit.AttackTarget.transform.position);
+                unit.Attack();
+            }
+            else
+            {
+                navAgent.SetDestination(unit.AttackTarget.transform.position);
+            }
+        }
+        void ChooseAttackTarget()
+        {
+            float distToEnemy;
+            if (unit.AttackTarget != null)
+                distToEnemy = Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position);
+            else
+                distToEnemy = Mathf.Infinity;
+
+            if (distToEnemy > unit.AttackRange)
+            {
+                Enemy newTarget = FindNearestEnemy();
+                if (newTarget != null)
+                    unit.SetAttackTarget(newTarget);
+                else
+                    unit.StopAction();
+            }
+        }
         public void Update()
         {
             if(unit.Status == StatusType.Attacking)
             {
-                float distToEnemy;
-                if (unit.AttackTarget != null)
-                    distToEnemy = Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position);
-                else
-                    distToEnemy = Mathf.Infinity;
-                if (distToEnemy > unit.AttackRange)
-                {
-                    Enemy newTarget = FindNearestEnemy();
-                    if (newTarget != null)
-                        unit.SetAttackTarget(newTarget);
-                    else
-                        unit.Stop();
-                }
+                ChooseAttackTarget();
+                AttackEnemy();
             }
         }
     };

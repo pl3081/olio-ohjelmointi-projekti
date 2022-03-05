@@ -33,16 +33,10 @@ public class Humanoid : MonoBehaviour
 
     public bool MoveTo(Vector3 pos)
     {
-        Stop();
+        StopAction();
         status = StatusType.Moving;
         navAgent.SetDestination(pos);
         return true;
-    }
-    public void Stop()
-    {
-        status = StatusType.Stopped;
-        attackTarget = null;
-        StopMoving();
     }
     public void SetAttackTarget(Humanoid target)
     {
@@ -53,35 +47,29 @@ public class Humanoid : MonoBehaviour
     {
         lookPos = destination - this.transform.position;
     }
-
-    private void StopMoving()
+    public void StopAction()
+    {
+        status = StatusType.Stopped;
+        attackTarget = null;
+        StopMoving();
+    }
+    public void StopMoving()
     {
         navAgent.SetDestination(this.transform.position);
         lookPos = Vector3.zero;
     }
-    private bool Attack(Humanoid target)
+    public bool Attack()
     {
-        if (Vector3.Distance(this.transform.position, target.transform.position) < this.attackRange)
+        bool inRange = Vector3.Distance(AttackTarget.transform.position, this.transform.position) < AttackRange;
+        if (attackCoolDown <= 0 && IsFacedTarget(AttackTarget.transform.position) && inRange)
         {
-            Vector3 vectorXZ = Vector3.forward + Vector3.right;
-            if (Vector3.Scale(navAgent.destination, vectorXZ) == Vector3.Scale(target.transform.position, vectorXZ))
-            {
-                StopMoving();
-            }
-            FaceTarget(target.transform.position);
-            if (attackCoolDown <= 0 && IsFacedTarget(target.transform.position))
-            {
-                target.HP -= this.attackDamage;
-                this.attackCoolDown = this.attackSpeed;
-                return true;
-            }
-        }
-        else
-        {
-            navAgent.SetDestination(target.transform.position);
+            AttackTarget.HP -= this.attackDamage;
+            this.attackCoolDown = this.attackSpeed;
+            return true;
         }
         return false;
     }
+
     private void RotateToDir(Vector3 dir)
     {
         dir.y = 0;
@@ -116,10 +104,6 @@ public class Humanoid : MonoBehaviour
             {
                 Destroy(AttackTarget.gameObject); // todo create dead body
                 SetAttackTarget(null);
-            }
-            else
-            {
-                Attack(attackTarget);
             }
         }
         if(status == StatusType.Moving)
