@@ -8,19 +8,30 @@ public class Unit : Humanoid
 {
     [SerializeField] int cost;
     public int Cost => cost;
-    public AIControl AI;
+    public UnitAI AI;
 
-    public class AIControl
+    public class UnitAI
     {
+        public enum Behaviour
+        {
+            Aggressive,
+            Defensive,
+            Passive
+        }
+        Behaviour behavPattern = Behaviour.Defensive;
         GameObject[] enemies => GameObject.FindGameObjectsWithTag("Enemy");
         Unit unit;
         NavMeshAgent navAgent;
-        public AIControl(Unit unit)
+        public UnitAI(Unit unit)
         {
             this.unit = unit;
             navAgent = unit.gameObject.GetComponent<NavMeshAgent>();
         }
-        
+        public void SetBehaviour(Behaviour pattern)
+        {
+            behavPattern = pattern;
+        }
+
         Enemy FindNearestEnemy()
         {
             GameObject nearestEnemy = null;
@@ -41,7 +52,7 @@ public class Unit : Humanoid
         }
         void AttackEnemy()
         {
-            if (unit.AttackTarget == null)
+            if (unit.AttackTarget == null || behavPattern == Behaviour.Passive)
                 return;
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
@@ -52,7 +63,7 @@ public class Unit : Humanoid
                 unit.FaceTarget(unit.AttackTarget.transform.position);
                 unit.Attack();
             }
-            else if(unit.Status == StatusType.Attacking)
+            else if(behavPattern == Behaviour.Aggressive)
             {
                 navAgent.SetDestination(unit.AttackTarget.transform.position);
             }
@@ -76,23 +87,18 @@ public class Unit : Humanoid
         }
         public void Update()
         {
-            if(unit.Status == StatusType.Attacking)
+            if(behavPattern == Behaviour.Defensive || behavPattern == Behaviour.Aggressive)
             {
                 ChooseAttackTarget();
                 AttackEnemy();
             }
-            else if(unit.Status == StatusType.Stopped)
-            {
-                ChooseAttackTarget();
-                unit.SetStatus(StatusType.Stopped);
-                AttackEnemy();
-            }
+            
         }
     };
     protected override void Awake()
     {
         base.Awake();
-        AI = new AIControl(this);
+        AI = new UnitAI(this);
     }
     protected override void Update()
     {

@@ -43,10 +43,6 @@ public class Humanoid : MonoBehaviour
         status = StatusType.Attacking;
         attackTarget = target;
     }
-    public void SetStatus(StatusType status)
-    {
-        this.status = status;
-    }
     public void FaceTarget(Vector3 destination)
     {
         lookPos = destination - this.transform.position;
