@@ -5,16 +5,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] int money;
+    public int money;
+    
     [SerializeField] List<GameObject> buyableUnits;
+    public List<GameObject> BuyableUnits => buyableUnits;
+    public static Player Instance;
+    
     readonly Dictionary<GameObject, int> _units = new Dictionary<GameObject, int>();
 
     void Awake()
     {
+        Instance = this;
         foreach (GameObject unit in buyableUnits)
         {
             _units[unit] = 0;
         }
+        DontDestroyOnLoad(gameObject);
     }
     
     public void BuyUnit(GameObject baseUnit)
@@ -25,11 +31,10 @@ public class Player : MonoBehaviour
         _units[baseUnit] += 1;
     }
 
-    public void DeployUnit(GameObject unit)
+    public void DeployUnit(GameObject unit, Vector3 position)
     {
         if (1 > _units[unit]) return;
-        //add parameter for position
         _units[unit]--;
-        Instantiate(unit, Vector3.zero, Quaternion.identity);
+        Instantiate(unit, position, Quaternion.identity);
     }
 }

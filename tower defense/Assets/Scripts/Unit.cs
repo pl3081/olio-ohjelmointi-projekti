@@ -56,6 +56,7 @@ public class Unit : Humanoid
                 return;
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
+                print("Attacked");
                 if (unit.IsDestination(unit.AttackTarget.transform.position))
                 {
                     unit.StopMoving();
