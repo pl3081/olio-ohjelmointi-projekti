@@ -13,8 +13,26 @@ public class Humanoid : MonoBehaviour
     public int AttackDamage => attackDamage;
     public float AttackRange => attackRange;
     public float AttackSpeed => attackSpeed;
-    public int HP { get; set; }
-    
+
+    [SerializeField] int _hp;
+    int HP
+    {
+        get => _hp;
+        set
+        {
+            if (value > 0)
+            {
+                print(value);
+                _hp = value;
+                return;
+            }
+            Die();
+            _hp = 0;
+        }
+    }
+
+    public bool Dead => HP <= 0;
+
     float attackCoolDown;
 
     Vector3 lookPos;
@@ -31,7 +49,7 @@ public class Humanoid : MonoBehaviour
     public StatusType Status => status;
     NavMeshAgent navAgent;
     Animator animator;
-    static readonly int Death = Animator.StringToHash("Death");
+    static readonly int DeathHash = Animator.StringToHash("Death");
 
     public bool MoveTo(Vector3 pos)
     {
@@ -69,6 +87,7 @@ public class Humanoid : MonoBehaviour
             this.attackCoolDown = this.attackSpeed;
             return true;
         }
+        
         return false;
     }
     public bool IsDestination(Vector3 pos)
@@ -78,7 +97,6 @@ public class Humanoid : MonoBehaviour
         Vector3 targetPos = Vector3.Scale(pos, vectorXZ);
         return destination == targetPos;
     }
-
     private void RotateToDir(Vector3 dir)
     {
         dir.y = 0;
@@ -91,11 +109,11 @@ public class Humanoid : MonoBehaviour
         return dot > 0.95f;
     }
 
-    public void Die()
+    void Die()
     {
-        animator.SetTrigger(Death);
+        gameObject.tag = "Corpse";
+        animator.SetTrigger(DeathHash);
         Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
-        print("Death");
     }
     
     protected virtual void Awake()
@@ -117,9 +135,8 @@ public class Humanoid : MonoBehaviour
         }
         if (attackTarget != null)
         {
-            if (attackTarget.HP <= 0)
+            if (attackTarget.Dead)
             {
-                AttackTarget.Die();
                 SetAttackTarget(null);
             }
         }
