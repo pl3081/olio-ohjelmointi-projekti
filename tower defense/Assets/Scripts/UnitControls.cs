@@ -79,7 +79,7 @@ public class UnitControls : MonoBehaviour
                     foreach (Unit unit in ChosenUnits)
                     {
                         unit.SetAttackTarget(hit.transform.GetComponent<Humanoid>());
-                        unit.AI.SetBehaviour(Unit.UnitAI.Behaviour.Aggressive);
+                        unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
                     }
                 }
                 else
@@ -89,7 +89,7 @@ public class UnitControls : MonoBehaviour
                         Quaternion direction = Quaternion.LookRotation((hit.point + Formation[i] - ChosenUnits[i].transform.position).normalized); 
                         Vector3 formatedPosition = hit.point + direction * Formation[i];
                         ChosenUnits[i].MoveTo(formatedPosition);
-                        ChosenUnits[i].AI.SetBehaviour(Unit.UnitAI.Behaviour.Defensive);
+                        ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
                     }
                 }
             }

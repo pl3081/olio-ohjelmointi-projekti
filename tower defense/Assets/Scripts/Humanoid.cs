@@ -3,35 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Humanoid : MonoBehaviour
+public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
 {
-    [SerializeField] int maxHP;
     [SerializeField] int attackDamage;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed; // in seconds
-    public int MaxHP => maxHP;
     public int AttackDamage => attackDamage;
     public float AttackRange => attackRange;
     public float AttackSpeed => attackSpeed;
-
-    [SerializeField] int _hp;
-    int HP
-    {
-        get => _hp;
-        set
-        {
-            if (value > 0)
-            {
-                print(value);
-                _hp = value;
-                return;
-            }
-            Die();
-            _hp = 0;
-        }
-    }
-
-    public bool Dead => HP <= 0;
 
     float attackCoolDown;
 
@@ -48,8 +27,6 @@ public class Humanoid : MonoBehaviour
     private StatusType status;
     public StatusType Status => status;
     NavMeshAgent navAgent;
-    Animator animator;
-    static readonly int DeathHash = Animator.StringToHash("Death");
 
     public bool MoveTo(Vector3 pos)
     {
@@ -108,20 +85,12 @@ public class Humanoid : MonoBehaviour
         float dot = Vector3.Dot(transform.forward, (destination - transform.position).normalized);
         return dot > 0.95f;
     }
-
-    void Die()
-    {
-        gameObject.tag = "Corpse";
-        animator.SetTrigger(DeathHash);
-        Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
-    }
     
-    protected virtual void Awake()
+    protected override void Awake()
     {
-        HP = maxHP;
+        base.Awake();
         status = StatusType.Stopped;
         navAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
     }
     protected virtual void Update()
     {

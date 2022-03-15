@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static Unit;
 
-public class Unit : Humanoid
+public class Unit : Humanoid, ISmartObject<AI>
 {
     [SerializeField] int cost;
     public int Cost => cost;
-    public UnitAI AI;
+    private AI _AIController;
+    public AI AIController { get { return _AIController; } }
 
-    public class UnitAI
+    public class AI
     {
         public enum Behaviour
         {
@@ -22,7 +24,7 @@ public class Unit : Humanoid
         GameObject[] enemies => GameObject.FindGameObjectsWithTag("Enemy");
         Unit unit;
         NavMeshAgent navAgent;
-        public UnitAI(Unit unit)
+        public AI(Unit unit)
         {
             this.unit = unit;
             navAgent = unit.gameObject.GetComponent<NavMeshAgent>();
@@ -52,7 +54,7 @@ public class Unit : Humanoid
         }
         void AttackEnemy()
         {
-            if (unit.AttackTarget == null || behavPattern == Behaviour.Passive)
+            if (unit.AttackTarget == null || unit.AttackTarget.Dead || behavPattern == Behaviour.Passive)
                 return;
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
@@ -82,8 +84,6 @@ public class Unit : Humanoid
                 Enemy newTarget = FindNearestEnemy();
                 if (newTarget != null)
                     unit.SetAttackTarget(newTarget);
-                else
-                    unit.StopAction();
             }
         }
         public void Update()
@@ -99,11 +99,11 @@ public class Unit : Humanoid
     protected override void Awake()
     {
         base.Awake();
-        AI = new UnitAI(this);
+        _AIController = new AI(this);
     }
     protected override void Update()
     {
         base.Update();
-        AI.Update();
+        _AIController.Update();
     }
 }
