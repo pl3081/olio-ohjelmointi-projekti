@@ -10,7 +10,7 @@ public class Unit : Humanoid, ISmartObject<AI>
     [SerializeField] int cost;
     public int Cost => cost;
     private AI _AIController;
-    public AI AIController { get { return _AIController; } }
+    public AI AIController => _AIController;
 
     public class AI
     {
