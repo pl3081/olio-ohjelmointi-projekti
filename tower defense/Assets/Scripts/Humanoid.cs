@@ -30,6 +30,8 @@ public class Humanoid : MonoBehaviour
     private StatusType status;
     public StatusType Status => status;
     NavMeshAgent navAgent;
+    Animator animator;
+    static readonly int Death = Animator.StringToHash("Death");
 
     public bool MoveTo(Vector3 pos)
     {
@@ -89,11 +91,19 @@ public class Humanoid : MonoBehaviour
         return dot > 0.95f;
     }
 
+    public void Die()
+    {
+        animator.SetTrigger(Death);
+        Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
+        print("Death");
+    }
+    
     protected virtual void Awake()
     {
         HP = maxHP;
         status = StatusType.Stopped;
         navAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
     }
     protected virtual void Update()
     {
@@ -109,7 +119,7 @@ public class Humanoid : MonoBehaviour
         {
             if (attackTarget.HP <= 0)
             {
-                Destroy(AttackTarget.gameObject); // todo call targets dying function
+                AttackTarget.Die();
                 SetAttackTarget(null);
             }
         }
