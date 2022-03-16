@@ -16,13 +16,13 @@ public class BasicUnit : MonoBehaviour, IDestructableObject
         get => _hp;
         set
         {
-            if (value > 0)
-            {
-                _hp = value;
-            }
-            else if (value > maxHP)
+            if (value > maxHP)
             {
                 _hp = maxHP;
+            }
+            else if (value > 0)
+            {
+                _hp = value;
             }
             else
             {
