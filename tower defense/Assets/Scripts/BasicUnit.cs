@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BasicUnit : MonoBehaviour, IDestructableObject
 {
+    protected HealthBar healthBar;
+    protected Vector3 healthBarOffset = new Vector3(0, 4, 0);
+
     protected Animator animator;
     protected static readonly int DeathHash = Animator.StringToHash("Death");
 
@@ -29,7 +32,8 @@ public class BasicUnit : MonoBehaviour, IDestructableObject
                 Die();
                 _hp = 0;
             }
-
+            if(!Dead)
+                healthBar.Value = _hp;
         }
     }
     public bool Dead => HP <= 0;
@@ -37,12 +41,18 @@ public class BasicUnit : MonoBehaviour, IDestructableObject
     {
         gameObject.tag = "Corpse";
         animator.SetTrigger(DeathHash);
+        healthBar.Delete();
         Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
     }
-
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
-        HP = MaxHP;
+        healthBar = new HealthBar(MaxHP);
+        _hp = MaxHP;
+    }
+    protected virtual void Update()
+    {
+        if(!Dead)
+            healthBar.SetPosition(Camera.main.WorldToScreenPoint(this.transform.position + healthBarOffset));
     }
 }

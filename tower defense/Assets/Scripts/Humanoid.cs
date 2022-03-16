@@ -83,7 +83,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     private bool IsFacedTarget(Vector3 destination)
     {
         float dot = Vector3.Dot(transform.forward, (destination - transform.position).normalized);
-        return dot > 0.95f;
+        return dot > 0.99f;
     }
     
     protected override void Awake()
@@ -92,8 +92,9 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
         status = StatusType.Stopped;
         navAgent = GetComponent<NavMeshAgent>();
     }
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
         if(lookPos != Vector3.zero && !IsFacedTarget(lookPos))
         {
             RotateToDir(lookPos);
