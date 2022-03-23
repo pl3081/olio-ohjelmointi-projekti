@@ -55,7 +55,12 @@ public class Unit : Humanoid, ISmartObject<AI>
         void AttackEnemy()
         {
             if (unit.AttackTarget == null || unit.AttackTarget.Dead || behavPattern == Behaviour.Passive)
+            {
+                if(behavPattern == Behaviour.Aggressive)
+                    unit.StopMoving();
                 return;
+            }    
+                
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
                 print("Attacked");

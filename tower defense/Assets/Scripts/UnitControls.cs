@@ -78,7 +78,7 @@ public class UnitControls : MonoBehaviour
                 {
                     foreach (Unit unit in ChosenUnits)
                     {
-                        unit.SetAttackTarget(hit.transform.GetComponent<Humanoid>());
+                        unit.SetAttackTarget(hit.transform.GetComponent<BasicUnit>());
                         unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
                     }
                 }

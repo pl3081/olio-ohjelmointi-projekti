@@ -15,8 +15,8 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     float attackCoolDown;
 
     Vector3 lookPos;
-    Humanoid attackTarget;
-    public Humanoid AttackTarget => attackTarget;
+    BasicUnit attackTarget;
+    public BasicUnit AttackTarget => attackTarget;
 
     public enum StatusType
     {
@@ -35,7 +35,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
         navAgent.SetDestination(pos);
         return true;
     }
-    public void SetAttackTarget(Humanoid target)
+    public void SetAttackTarget(BasicUnit target)
     {
         status = StatusType.Attacking;
         attackTarget = target;
