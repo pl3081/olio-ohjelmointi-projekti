@@ -34,7 +34,7 @@ public class Unit : Humanoid, ISmartObject<AI>
             behavPattern = pattern;
         }
 
-        Enemy FindNearestEnemy()
+        BasicUnit FindNearestEnemy()
         {
             GameObject nearestEnemy = null;
             float nearestDist = Mathf.Infinity;
@@ -50,7 +50,7 @@ public class Unit : Humanoid, ISmartObject<AI>
             if (nearestEnemy == null)
                 return null;
             else
-                return nearestEnemy.GetComponent<Enemy>();
+                return nearestEnemy.GetComponent<BasicUnit>();
         }
         void AttackEnemy()
         {
@@ -86,7 +86,7 @@ public class Unit : Humanoid, ISmartObject<AI>
 
             if (distToEnemy > unit.AttackRange)
             {
-                Enemy newTarget = FindNearestEnemy();
+                BasicUnit newTarget = FindNearestEnemy();
                 if (newTarget != null)
                     unit.SetAttackTarget(newTarget);
             }
