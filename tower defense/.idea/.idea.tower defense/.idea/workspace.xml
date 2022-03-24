@@ -2,21 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="103179d8-dfb0-4ba3-912a-c83f10679a8d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/Cube.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/Cube.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/Cylinder.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/Cylinder.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/Sphere.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/Sphere.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/unitTest.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/unitTest.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/map.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/map.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MapItemSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MapItemSelection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/ExitBuying.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/ExitBuying.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitControls.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +25,6 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.29/UnityEngine.TestRunner/TestRunner/Callbacks/PlayModeRunnerCallback.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.7/Tests/Editor/PlasticSCM/Views/IncomingChanges/Gluon/UnityIncomingChangesTreeTests.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.29/UnityEditor.TestRunner/TestLaunchers/PlatformSetup/ApplePlatformSetup.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$USER_HOME$/OneDrive/Työpöytä/Player.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -81,6 +76,7 @@
       <workItem from="1646150669113" duration="3918000" />
       <workItem from="1646373109913" duration="1502000" />
       <workItem from="1646823469395" duration="4513000" />
+      <workItem from="1648109798762" duration="4777000" />
     </task>
     <servers />
   </component>

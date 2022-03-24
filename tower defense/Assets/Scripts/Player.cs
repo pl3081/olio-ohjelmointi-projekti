@@ -11,14 +11,14 @@ public class Player : MonoBehaviour
     public List<GameObject> BuyableUnits => buyableUnits;
     public static Player Instance;
     
-    readonly Dictionary<GameObject, int> _units = new Dictionary<GameObject, int>();
+    public readonly Dictionary<GameObject, int> Units = new Dictionary<GameObject, int>();
 
     void Awake()
     {
         Instance = this;
         foreach (GameObject unit in buyableUnits)
         {
-            _units[unit] = 0;
+            Units[unit] = 0;
         }
         DontDestroyOnLoad(gameObject);
     }
@@ -28,13 +28,13 @@ public class Player : MonoBehaviour
         var unit = baseUnit.GetComponent<Unit>();
         if (unit.Cost > money) return;
         money -= unit.Cost;
-        _units[baseUnit] += 1;
+        Units[baseUnit] += 1;
     }
 
     public void DeployUnit(GameObject unit, Vector3 position)
     {
-        if (1 > _units[unit]) return;
-        _units[unit]--;
+        if (1 > Units[unit]) return;
+        Units[unit]--;
         Instantiate(unit, position, Quaternion.identity);
     }
 }

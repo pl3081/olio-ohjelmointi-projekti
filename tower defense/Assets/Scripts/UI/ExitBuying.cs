@@ -8,6 +8,6 @@ public class ExitBuying : MonoBehaviour
 {
     public void Exit()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("map");
     }
 }

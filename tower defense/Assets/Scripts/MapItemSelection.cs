@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MapItemSelection : MonoBehaviour
 {
@@ -37,6 +39,7 @@ public class MapItemSelection : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     Debug.Log("Focus on map item");
+                    SceneManager.LoadScene("Game");
                 }
             }
         }

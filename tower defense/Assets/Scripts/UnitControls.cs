@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
-{
-    [SerializeField] private List<Unit> ChosenUnits;
+{ 
+    private List<Unit> ChosenUnits = new List<Unit>();
     private List<Vector3> Formation = new List<Vector3>();
-
+    public GameObject unitParent;
+    Player player;
+    
     public bool AddUnit(Unit unit)
     {
         if (!IsUnitInList(unit))
@@ -64,6 +67,17 @@ public class UnitControls : MonoBehaviour
 
     private void Awake()
     {
+        player = Player.Instance;
+
+        foreach(KeyValuePair<GameObject, int> unit in player.Units)
+        {
+            for (int i = 0; i < unit.Value; i++)
+            {
+                GameObject newUnit = Instantiate(unit.Key, new Vector3(i,0,i), Quaternion.identity);
+                ChosenUnits.Add(newUnit.GetComponent<Unit>());
+            }
+        }
+
         Formate(2, 3f);
     }
     void Update()
