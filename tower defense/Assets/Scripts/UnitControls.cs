@@ -45,7 +45,7 @@ public class UnitControls : MonoBehaviour
         int count = 0;
         for(int row = 0; row < rows; row++)
         {
-            if (row * numInRow > ChosenUnits.Count - count)
+            if (row * numInRow + numInRow > ChosenUnits.Count)
                 numInRow = ChosenUnits.Count - count;
 
             for (int i = 0; i < numInRow; i++)
@@ -83,7 +83,7 @@ public class UnitControls : MonoBehaviour
             }
         }
 
-        Formate(2, 3f);
+        Formate(3, 3f);
     }
     void Update()
     {
