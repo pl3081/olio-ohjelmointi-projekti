@@ -8,6 +8,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     [SerializeField] int attackDamage;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed; // in seconds
+    [SerializeField] protected List<Skill> SkillList = new List<Skill>();
     public int AttackDamage => attackDamage;
     public float AttackRange => attackRange;
     public float AttackSpeed => attackSpeed;
