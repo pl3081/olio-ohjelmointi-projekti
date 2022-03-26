@@ -57,13 +57,13 @@ public class Unit : Humanoid, ISmartObject<AI>
             if (unit.AttackTarget == null || unit.AttackTarget.Dead || behavPattern == Behaviour.Passive)
             {
                 if(behavPattern == Behaviour.Aggressive)
-                    unit.StopMoving();
+                    unit.StopAction();
                 return;
             }    
                 
             if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
             {
-                if (unit.IsDestination(unit.AttackTarget.transform.position))
+                if (behavPattern == Behaviour.Aggressive)
                 {
                     unit.StopMoving();
                 }
@@ -97,7 +97,6 @@ public class Unit : Humanoid, ISmartObject<AI>
                 ChooseAttackTarget();
                 AttackEnemy();
             }
-            
         }
     };
     protected override void Awake()
