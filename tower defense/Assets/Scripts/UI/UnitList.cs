@@ -7,15 +7,6 @@ public class UnitList : MonoBehaviour
     Player player;
     public GameObject cardTemplate;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            print("Is down");
-            gameObject.SetActive(!gameObject.activeInHierarchy);
-        }
-    }
-    
     void InitCard(Player.UnitContainer container)
     {
         GameObject unitObject = container.unitObject;
