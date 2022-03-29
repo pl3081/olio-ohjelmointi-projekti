@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Humanoid : MonoBehaviour
+public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
 {
-    [SerializeField] int maxHP;
     [SerializeField] int attackDamage;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed; // in seconds
-    public int MaxHP => maxHP;
+    [SerializeField] protected List<Skill> SkillList = new List<Skill>();
     public int AttackDamage => attackDamage;
     public float AttackRange => attackRange;
     public float AttackSpeed => attackSpeed;
-    public int HP { get; set; }
-    
+
     float attackCoolDown;
 
     Vector3 lookPos;
-    Humanoid attackTarget;
-    public Humanoid AttackTarget => attackTarget;
+    BasicUnit attackTarget;
+    public BasicUnit AttackTarget => attackTarget;
 
     public enum StatusType
     {
@@ -38,7 +36,7 @@ public class Humanoid : MonoBehaviour
         navAgent.SetDestination(pos);
         return true;
     }
-    public void SetAttackTarget(Humanoid target)
+    public void SetAttackTarget(BasicUnit target)
     {
         status = StatusType.Attacking;
         attackTarget = target;
@@ -67,6 +65,7 @@ public class Humanoid : MonoBehaviour
             this.attackCoolDown = this.attackSpeed;
             return true;
         }
+        
         return false;
     }
     public bool IsDestination(Vector3 pos)
@@ -76,7 +75,6 @@ public class Humanoid : MonoBehaviour
         Vector3 targetPos = Vector3.Scale(pos, vectorXZ);
         return destination == targetPos;
     }
-
     private void RotateToDir(Vector3 dir)
     {
         dir.y = 0;
@@ -86,17 +84,18 @@ public class Humanoid : MonoBehaviour
     private bool IsFacedTarget(Vector3 destination)
     {
         float dot = Vector3.Dot(transform.forward, (destination - transform.position).normalized);
-        return dot > 0.95f;
+        return dot > 0.99f;
     }
-
-    protected virtual void Awake()
+    
+    protected override void Awake()
     {
-        HP = maxHP;
+        base.Awake();
         status = StatusType.Stopped;
         navAgent = GetComponent<NavMeshAgent>();
     }
-    protected virtual void Update()
+    protected override void Update()
     {
+        base.Update();
         if(lookPos != Vector3.zero && !IsFacedTarget(lookPos))
         {
             RotateToDir(lookPos);
@@ -107,9 +106,8 @@ public class Humanoid : MonoBehaviour
         }
         if (attackTarget != null)
         {
-            if (attackTarget.HP <= 0)
+            if (attackTarget.Dead)
             {
-                Destroy(AttackTarget.gameObject); // todo call targets dying function
                 SetAttackTarget(null);
             }
         }

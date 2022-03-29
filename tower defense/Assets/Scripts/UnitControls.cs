@@ -2,12 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
-{
-    [SerializeField] private List<Unit> ChosenUnits;
-    private List<Vector3> Formation = new List<Vector3>();
-
+{ 
+    private List<Unit> ChosenUnits = new List<Unit>();
+    private List<Vector3> _formation = new List<Vector3>();
+    public GameObject unitParent;
+    Player player;
+    
     public bool AddUnit(Unit unit)
     {
         if (!IsUnitInList(unit))
@@ -36,13 +39,13 @@ public class UnitControls : MonoBehaviour
     }
     public void Formate(int numInRow, float distanceBetween)
     {
-        Formation.Clear();
+        _formation.Clear();
         numInRow = Mathf.Min(numInRow, ChosenUnits.Count);
         int rows = Mathf.CeilToInt(ChosenUnits.Count / (float)numInRow);
         int count = 0;
         for(int row = 0; row < rows; row++)
         {
-            if (row * numInRow > ChosenUnits.Count - count)
+            if (row * numInRow + numInRow > ChosenUnits.Count)
                 numInRow = ChosenUnits.Count - count;
 
             for (int i = 0; i < numInRow; i++)
@@ -51,7 +54,7 @@ public class UnitControls : MonoBehaviour
                 {
                     float xMul = i - (numInRow - 1) / 2f;
                     float yMul = (rows - 1) / 2f - row;
-                    Formation.Add((Vector3.right * xMul + Vector3.forward * yMul) * distanceBetween);
+                    _formation.Add((Vector3.right * xMul + Vector3.forward * yMul) * distanceBetween);
                     count++;
                 }
             }
@@ -59,12 +62,28 @@ public class UnitControls : MonoBehaviour
     }
     public void Deformate(Unit unit)
     {
-        Formation[ChosenUnits.IndexOf(unit)] = Vector3.zero;
+        _formation[ChosenUnits.IndexOf(unit)] = Vector3.zero;
+    }
+
+    private Vector3 Rotated(Vector3 vector, Quaternion rotation, Vector3 pivot = default(Vector3))
+    {
+        return rotation * (vector - pivot) + pivot;
     }
 
     private void Awake()
     {
-        Formate(2, 3f);
+        player = Player.Instance;
+
+        foreach(KeyValuePair<GameObject, int> unit in player.Units)
+        {
+            for (int i = 0; i < unit.Value; i++)
+            {
+                GameObject newUnit = Instantiate(unit.Key, new Vector3(i,0,i), Quaternion.identity);
+                ChosenUnits.Add(newUnit.GetComponent<Unit>());
+            }
+        }
+
+        Formate(3, 3f);
     }
     void Update()
     {
@@ -74,22 +93,26 @@ public class UnitControls : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if(hit.collider.tag == "Enemy")
+                if(hit.collider.CompareTag("Enemy"))
                 {
                     foreach (Unit unit in ChosenUnits)
                     {
-                        unit.SetAttackTarget(hit.transform.GetComponent<Humanoid>());
-                        unit.AI.SetBehaviour(Unit.UnitAI.Behaviour.Aggressive);
+                        unit.SetAttackTarget(hit.transform.GetComponent<BasicUnit>());
+                        unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
                     }
                 }
                 else
                 {
+                    Vector3 dirToPoint = new Vector3();
+                    foreach (Unit unit in ChosenUnits)
+                    {
+                        dirToPoint += hit.point - unit.transform.position;
+                    }
                     for (int i = 0; i < ChosenUnits.Count; i++)
                     {
-                        Quaternion direction = Quaternion.LookRotation((hit.point + Formation[i] - ChosenUnits[i].transform.position).normalized); 
-                        Vector3 formatedPosition = hit.point + direction * Formation[i];
+                        Vector3 formatedPosition = hit.point + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
                         ChosenUnits[i].MoveTo(formatedPosition);
-                        ChosenUnits[i].AI.SetBehaviour(Unit.UnitAI.Behaviour.Defensive);
+                        ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
                     }
                 }
             }
