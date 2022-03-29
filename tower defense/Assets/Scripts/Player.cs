@@ -6,35 +6,48 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int money;
+    public static Player Instance { get; private set; }
     
-    [SerializeField] List<GameObject> buyableUnits;
-    public List<GameObject> BuyableUnits => buyableUnits;
-    public static Player Instance;
-    
-    public readonly Dictionary<GameObject, int> Units = new Dictionary<GameObject, int>();
+    [Serializable] public class UnitContainer
+    {
+        public GameObject unitObject;
+        public int amount;
+    }
+    public List<UnitContainer> units = new List<UnitContainer>();
 
     void Awake()
     {
-        Instance = this;
-        foreach (GameObject unit in buyableUnits)
+        if (Instance == null)
         {
-            Units[unit] = 0;
+            Instance = this;
+            
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
-    }
-    
-    public void BuyUnit(GameObject baseUnit)
-    {
-        var unit = baseUnit.GetComponent<Unit>();
-        if (unit.Cost > money) return;
-        money -= unit.Cost;
-        Units[baseUnit] += 1;
+        else
+        {
+            Destroy(gameObject); //destroy testing player
+        }
     }
 
-    public void DeployUnit(GameObject unit, Vector3 position)
+    UnitContainer FindContainer(GameObject objectUnit)
     {
-        if (1 > Units[unit]) return;
-        Units[unit]--;
-        Instantiate(unit, position, Quaternion.identity);
+        return units.Find(container => container.unitObject == objectUnit);
+    }
+    
+    public void BuyUnit(GameObject objectUnit)
+    {
+        var unit = objectUnit.GetComponent<Unit>();
+        if (unit.Cost > money) return;
+        money -= unit.Cost;
+        UnitContainer targetContainer = FindContainer(objectUnit);
+        targetContainer.amount += 1;
+    }
+
+    public void DeployUnit(GameObject objectUnit, Vector3 position)
+    {
+        UnitContainer targetContainer = FindContainer(objectUnit);
+        if (1 > targetContainer.amount) return;
+        targetContainer.amount--;
+        Instantiate(objectUnit, position, Quaternion.identity);
     }
 }

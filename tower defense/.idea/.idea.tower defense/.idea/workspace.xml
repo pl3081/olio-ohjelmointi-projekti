@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="103179d8-dfb0-4ba3-912a-c83f10679a8d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UnitList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UnitList.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitControls.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +36,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="rider.run.widget.enabled.cache" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -77,6 +77,7 @@
       <workItem from="1648117156636" duration="4000" />
       <workItem from="1648186297278" duration="10000" />
       <workItem from="1648186317253" duration="3600000" />
+      <workItem from="1648593054546" duration="3122000" />
     </task>
     <servers />
   </component>

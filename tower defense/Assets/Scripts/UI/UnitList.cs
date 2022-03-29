@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,11 +16,11 @@ public class UnitList : MonoBehaviour
         }
     }
     
-    void InitCard(GameObject unitObject)
+    void InitCard(Player.UnitContainer container)
     {
+        GameObject unitObject = container.unitObject;
         GameObject card = Instantiate(cardTemplate, transform);
         card.name = unitObject.name;
-        var unit = unitObject.GetComponent<Unit>();
         var button = card.GetComponent<Button>();
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(delegate
@@ -31,6 +32,6 @@ public class UnitList : MonoBehaviour
     void Awake()
     {
         player = Player.Instance;
-        player.BuyableUnits.ForEach(InitCard);
+        player.units.ForEach(InitCard);
     }
 }

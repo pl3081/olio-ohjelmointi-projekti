@@ -74,11 +74,12 @@ public class UnitControls : MonoBehaviour
     {
         player = Player.Instance;
 
-        foreach(KeyValuePair<GameObject, int> unit in player.Units)
+        foreach(Player.UnitContainer container in player.units)
         {
-            for (int i = 0; i < unit.Value; i++)
+            GameObject unitObject = container.unitObject;
+            for (int i = 0; i < container.amount; i++)
             {
-                GameObject newUnit = Instantiate(unit.Key, new Vector3(i,0,i), Quaternion.identity);
+                GameObject newUnit = Instantiate(unitObject, new Vector3(i,0,i), Quaternion.identity);
                 ChosenUnits.Add(newUnit.GetComponent<Unit>());
             }
         }
