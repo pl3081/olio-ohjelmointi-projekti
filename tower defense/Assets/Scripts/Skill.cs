@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Skill
 {
-    protected float coolDown;
+    protected float coolDown = 0;
     public float CoolDown => coolDown;
     private float usageTime;
 
-    public void Use()
+    protected virtual bool Use(System.Func<bool> Ability)
     {
         if(Time.realtimeSinceStartup - usageTime >= coolDown)
         {
-            usageTime = Time.realtimeSinceStartup;
-            Ability();
+            if (Ability())
+            {
+                usageTime = Time.realtimeSinceStartup;
+                return true;
+            }
         }
+        return false;
     }
-    protected virtual void Ability() { } // should be overriden
 }

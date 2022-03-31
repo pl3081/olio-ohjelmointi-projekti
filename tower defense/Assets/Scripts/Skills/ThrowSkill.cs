@@ -13,8 +13,13 @@ public class ThrowSkill : Skill
         this.damage = damage;
         this.coolDown = coolDown;
     }
-    protected override void Ability()
+    public bool Throw(Vector3 position)
+    {
+        return Use(() => Ability(position));
+    }
+    private bool Ability(Vector3 position)
     {
         Debug.Log("throw");
+        return true;
     }
 }
