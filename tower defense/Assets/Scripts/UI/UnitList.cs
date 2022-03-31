@@ -1,23 +1,16 @@
-using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UnitList : MonoBehaviour
 {
     Player player;
-    public GameObject cardTemplate;
+    [SerializeField] UnitViewer viewer;
+    [SerializeField] GameObject cardTemplate;
 
     void InitCard(Player.UnitContainer container)
     {
         GameObject unitObject = container.unitObject;
         GameObject card = Instantiate(cardTemplate, transform);
-        card.name = unitObject.name;
-        var button = card.GetComponent<Button>();
-        button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(delegate
-        {
-            player.BuyUnit(unitObject);
-        });
+        card.GetComponent<UnitCard>().Load(unitObject);
     }
     
     void Awake()
