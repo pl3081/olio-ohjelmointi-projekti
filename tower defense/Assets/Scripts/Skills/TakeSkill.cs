@@ -8,10 +8,11 @@ public class TakeSkill : Skill
     float range;
     Transform objectTaken;
     public Transform ObjectTaken => ObjectTaken;
-    public TakeSkill(Transform hand, float range)
+    public TakeSkill(Transform hand, float range, float coolDown = 0f)
     {
         this.hand = hand;
         this.range = range;
+        this.coolDown = coolDown;
     }
     public bool Take(Transform objectToTake)
     {
@@ -21,8 +22,8 @@ public class TakeSkill : Skill
     {
         if(Vector3.Distance(hand.position, objectToTake.position) <= range && objectTaken == null)
         {
-            objectToTake.position = hand.position;
             objectToTake.SetParent(hand);
+            objectToTake.position = hand.position;
             objectTaken = objectToTake;
             return true;
         }

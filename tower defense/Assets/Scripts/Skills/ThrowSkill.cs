@@ -6,9 +6,11 @@ public class ThrowSkill : Skill
 {
     private float range;
     private float damage;
+    private Transform hand;
 
-    public ThrowSkill(float range, float damage, float coolDown)
+    public ThrowSkill(Transform hand, float range, float damage, float coolDown = 0f)
     {
+        this.hand = hand;
         this.range = range;
         this.damage = damage;
         this.coolDown = coolDown;
@@ -17,9 +19,68 @@ public class ThrowSkill : Skill
     {
         return Use(() => Ability(position));
     }
-    private bool Ability(Vector3 position)
+    private bool Ability(Vector3 targetPoint)
     {
-        Debug.Log("throw");
-        return true;
+        if(hand.childCount != 0)
+        {
+            Transform itemTransform = hand.GetChild(0);
+            Player.Instance.StartCoroutine(throwItem(itemTransform, targetPoint, 2.0f, 10f));
+            return true;
+        }
+        return false;
+    }
+    private AnimationCurve[] buildThrowTrajectory(Vector3 origin, Vector3 target, float throwTime, float throwHeight)
+    {
+        // Returns array of 3 AnimationCurves: 0/1/2 = X/Y/Z.
+
+        // Initalise trajectory array.
+        AnimationCurve[] trajectory = new AnimationCurve[3];
+        trajectory[0] = new AnimationCurve();
+        trajectory[1] = new AnimationCurve();
+        trajectory[2] = new AnimationCurve();
+
+        // Start point.
+        trajectory[0].AddKey(0.0f, origin.x);
+        trajectory[1].AddKey(0.0f, origin.y);
+        trajectory[2].AddKey(0.0f, origin.z);
+
+        // Mid point.
+        trajectory[0].AddKey(throwTime * 0.5f, (origin.x + target.x) * 0.5f);
+        trajectory[1].AddKey(throwTime * 0.5f, (origin.y + target.y) * 0.5f + throwHeight);
+        trajectory[2].AddKey(throwTime * 0.5f, (origin.z + target.z) * 0.5f);
+
+        // End point.
+        trajectory[0].AddKey(throwTime, target.x);
+        trajectory[1].AddKey(throwTime, target.y);
+        trajectory[2].AddKey(throwTime, target.y);
+
+        return trajectory;
+    }
+    // Do the actual position and scale transforms for the throwing.
+    private IEnumerator throwItem(Transform item, Vector3 targetPoint, float throwLength, float throwHeight)
+    {
+        bool itemInAir = true;
+        float itemTravelTime = 0.0f;
+
+        var trajectory = buildThrowTrajectory(item.position, targetPoint, throwLength, throwHeight);
+
+        while (itemInAir)
+        {
+            Vector3 newPosition = new Vector3(trajectory[0].Evaluate(itemTravelTime),
+                                              trajectory[1].Evaluate(itemTravelTime),
+                                              trajectory[2].Evaluate(itemTravelTime));
+            item.position = newPosition;
+
+            itemTravelTime += Time.deltaTime;
+            if (itemTravelTime > throwLength)
+            {
+                itemInAir = false;
+            }
+
+            yield return null;
+        }
+
+        // Just to ensure that item is definitely at the target position after throw.
+        item.position = targetPoint;
     }
 }
