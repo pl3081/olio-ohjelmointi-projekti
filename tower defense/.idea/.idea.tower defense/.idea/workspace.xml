@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="103179d8-dfb0-4ba3-912a-c83f10679a8d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Zombies/_GhoulZombie/Ghoul.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Zombies/_GhoulZombie/Ghoul.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UnitList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UnitList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +82,8 @@
       <workItem from="1648186297278" duration="10000" />
       <workItem from="1648186317253" duration="3600000" />
       <workItem from="1648593054546" duration="3441000" />
+      <workItem from="1648749410453" duration="5000" />
+      <workItem from="1648749467568" duration="8572000" />
     </task>
     <servers />
   </component>
