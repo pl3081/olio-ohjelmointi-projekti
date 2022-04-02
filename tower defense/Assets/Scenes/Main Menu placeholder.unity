@@ -811,12 +811,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
       propertyPath: units.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
       propertyPath: units.Array.data[0].unitObject
       value: 
       objectReference: {fileID: 3627483304001084773, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
+    - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
+      propertyPath: units.Array.data[1].unitObject
+      value: 
+      objectReference: {fileID: 8752914765748808930, guid: 8ceca7867e10472439e58911c4213b65, type: 3}
     - target: {fileID: 2314882909178403357, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
       propertyPath: m_Name
       value: Player

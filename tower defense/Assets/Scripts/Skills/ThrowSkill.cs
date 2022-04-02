@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ThrowSkill : Skill
 {
+    private string damagedTag;
     private float range;
-    private float damage;
+    private int damage;
     private Transform hand;
 
-    public ThrowSkill(Transform hand, float range, float damage, float coolDown = 0f)
+    public ThrowSkill(Transform hand, string damagedTag, float range, int damage, float coolDown = 0f)
     {
         this.hand = hand;
+        this.damagedTag = damagedTag;
         this.range = range;
         this.damage = damage;
         this.coolDown = coolDown;
@@ -24,7 +27,9 @@ public class ThrowSkill : Skill
         if(hand.childCount != 0)
         {
             Transform itemTransform = hand.GetChild(0);
-            Player.Instance.StartCoroutine(throwItem(itemTransform, targetPoint, 2.0f, 10f));
+            itemTransform.parent = null;
+            itemTransform.gameObject.AddComponent<ThrowedUnit>().Init(damagedTag, damage, range);
+            Player.Instance.StartCoroutine(throwItem(itemTransform, targetPoint, 2.0f, 8f));
             return true;
         }
         return false;
@@ -82,5 +87,7 @@ public class ThrowSkill : Skill
 
         // Just to ensure that item is definitely at the target position after throw.
         item.position = targetPoint;
+
+        item.GetComponent<ThrowedUnit>().Land();
     }
 }

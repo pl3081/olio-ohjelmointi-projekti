@@ -112,8 +112,11 @@ public class UnitControls : MonoBehaviour
                     for (int i = 0; i < ChosenUnits.Count; i++)
                     {
                         Vector3 formatedPosition = hit.point + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
-                        ChosenUnits[i].MoveTo(formatedPosition);
-                        ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
+                        if(ChosenUnits[i].transform.GetComponent<NavMeshAgent>() != null)
+                        {
+                            ChosenUnits[i].MoveTo(formatedPosition);
+                            ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
+                        }
                     }
                 }
             }

@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TakeSkill : Skill
 {
     Transform hand;
     float range;
-    Transform objectTaken;
     public Transform ObjectTaken => ObjectTaken;
     public TakeSkill(Transform hand, float range, float coolDown = 0f)
     {
@@ -20,11 +20,13 @@ public class TakeSkill : Skill
     }
     private bool Ability(Transform objectToTake)
     {
-        if(Vector3.Distance(hand.position, objectToTake.position) <= range && objectTaken == null)
+        if(Vector3.Distance(hand.position, objectToTake.position) <= range && hand.childCount == 0)
         {
-            objectToTake.SetParent(hand);
             objectToTake.position = hand.position;
-            objectTaken = objectToTake;
+            objectToTake.SetParent(hand);
+            objectToTake.GetComponent<NavMeshAgent>().enabled = false;
+            objectToTake.GetComponent<BasicUnit>().enabled = false;
+            objectToTake.GetComponent<BoxCollider>().enabled = false;
             return true;
         }
         return false;

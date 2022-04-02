@@ -10,7 +10,7 @@ public class Unit : Humanoid, ISmartObject<AI>
     [SerializeField] int cost;
     public int Cost => cost;
     private AI _AIController;
-    public AI AIController => _AIController;
+    public virtual AI AIController => _AIController;
 
     public class AI
     {
@@ -20,10 +20,14 @@ public class Unit : Humanoid, ISmartObject<AI>
             Defensive,
             Passive
         }
-        Behaviour behavPattern = Behaviour.Defensive;
-        GameObject[] enemies => GameObject.FindGameObjectsWithTag("Enemy");
-        Unit unit;
-        NavMeshAgent navAgent;
+        protected Behaviour behavPattern = Behaviour.Defensive;
+
+        protected List<GameObject> enemies => new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
+        private Unit unit;
+        protected NavMeshAgent navAgent;
+
+        protected virtual bool cantAttack => unit.AttackTarget == null || unit.AttackTarget.Dead || behavPattern == Behaviour.Passive;
+
         public AI(Unit unit)
         {
             this.unit = unit;
@@ -31,51 +35,61 @@ public class Unit : Humanoid, ISmartObject<AI>
         }
         public void SetBehaviour(Behaviour pattern)
         {
-            behavPattern = pattern;
+            this.behavPattern = pattern;
         }
 
-        BasicUnit FindNearestEnemy()
+        protected virtual BasicUnit FindNearestUnit(List<GameObject> units)
         {
-            GameObject nearestEnemy = null;
+            GameObject nearestUnit = null;
             float nearestDist = Mathf.Infinity;
-            foreach(GameObject enemy in enemies)
+            foreach(GameObject obj in units)
             {
-                float distToEnemy = Vector3.Distance(unit.transform.position, enemy.transform.position);
-                if (distToEnemy < nearestDist)
+                if (obj == unit.gameObject)
+                    continue;
+                float distToUnit = Vector3.Distance(unit.transform.position, obj.transform.position);
+                if (distToUnit < nearestDist)
                 {
-                    nearestEnemy = enemy;
-                    nearestDist = distToEnemy;
+                    nearestUnit = obj;
+                    nearestDist = distToUnit;
                 }
             }
-            if (nearestEnemy == null)
+            if (nearestUnit == null)
                 return null;
             else
-                return nearestEnemy.GetComponent<BasicUnit>();
+                return nearestUnit.GetComponent<BasicUnit>();
         }
-        void AttackEnemy()
+        protected void InteractWithUnitAtRange(bool cond, BasicUnit target, float range, Func<BasicUnit,bool> action, Action elseAction)
         {
-            if (unit.AttackTarget == null || unit.AttackTarget.Dead || behavPattern == Behaviour.Passive)
+            if (!cond)
             {
-                if(behavPattern == Behaviour.Aggressive)
-                    unit.StopAction();
+                elseAction();
                 return;
-            }    
-                
-            if (Vector3.Distance(unit.transform.position, unit.AttackTarget.transform.position) < unit.AttackRange)
+            }
+            if (target == null) return;
+            if (Vector3.Distance(unit.transform.position, target.transform.position) < range)
             {
                 if (behavPattern == Behaviour.Aggressive)
                 {
                     unit.StopMoving();
                 }
-                unit.FaceTarget(unit.AttackTarget.transform.position);
-                unit.Attack();
+                unit.FaceTarget(target.transform.position);
+                action(target);
             }
-            else if(behavPattern == Behaviour.Aggressive)
+            else if (behavPattern == Behaviour.Aggressive)
             {
-                navAgent.SetDestination(unit.AttackTarget.transform.position);
+                unit.MoveTo(target.transform.position);
             }
         }
-        void ChooseAttackTarget()
+        protected virtual void AttackEnemy()
+        {
+            void elseAction()
+            {
+                if (behavPattern == Behaviour.Aggressive)
+                    unit.StopAction();
+            }
+            InteractWithUnitAtRange(!cantAttack, unit.AttackTarget, unit.AttackRange, unit.Attack, elseAction);
+        }
+        protected virtual void ChooseAttackTarget()
         {
             float distToEnemy;
             if (unit.AttackTarget != null)
@@ -85,12 +99,12 @@ public class Unit : Humanoid, ISmartObject<AI>
 
             if (distToEnemy > unit.AttackRange)
             {
-                BasicUnit newTarget = FindNearestEnemy();
+                BasicUnit newTarget = FindNearestUnit(enemies);
                 if (newTarget != null)
                     unit.SetAttackTarget(newTarget);
             }
         }
-        public void Update()
+        public virtual void Update()
         {
             if(behavPattern == Behaviour.Defensive || behavPattern == Behaviour.Aggressive)
             {

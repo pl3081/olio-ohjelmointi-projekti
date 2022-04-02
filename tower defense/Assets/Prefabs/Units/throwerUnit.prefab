@@ -73,7 +73,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8752914765748808930}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &3693450551602003303
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -151,11 +151,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 100
   _hp: 0
-  attackDamage: 0
-  attackRange: 0
-  attackSpeed: 0
+  attackDamage: 5
+  attackRange: 2
+  attackSpeed: 5
+  cost: 5
   hand: {fileID: 9062613216842946613}
-  takeRange: 5
+  takeRange: 1
   throwRange: 20
   throwDamage: 10
   throwCoolDown: 5
