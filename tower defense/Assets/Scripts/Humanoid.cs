@@ -88,7 +88,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     public bool IsFacedTarget(Vector3 destination)
     {
         float dot = Vector3.Dot(transform.forward, (destination - transform.position).normalized);
-        return dot > 0.9f;
+        return dot > 0.9f || destination == transform.position;
     }
     
     protected override void Awake()

@@ -21,11 +21,11 @@ public class Thrower : Unit
         {
             this.unit = unit;
 
-            GameObject[] allies = GameObject.FindGameObjectsWithTag("Humanoid");
-            foreach (GameObject ally in allies)
+            GameObject[] allAllies = GameObject.FindGameObjectsWithTag("Humanoid");
+            foreach (GameObject ally in allAllies)
             {
                 if (ally.GetComponent<Thrower>() == null)
-                    this.allies.Add(ally);
+                    allies.Add(ally);
             }
         }
         void TakeNearestUnit()
