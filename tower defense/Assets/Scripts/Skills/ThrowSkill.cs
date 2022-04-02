@@ -7,15 +7,17 @@ public class ThrowSkill : Skill
 {
     private string damagedTag;
     private float range;
+    private float splashRange;
     private int damage;
     private Transform hand;
 
-    public ThrowSkill(Transform hand, string damagedTag, float range, int damage, float coolDown = 0f)
+    public ThrowSkill(Transform hand, string damagedTag, float range, int damage, float splashRange, float coolDown = 0f)
     {
         this.hand = hand;
         this.damagedTag = damagedTag;
         this.range = range;
         this.damage = damage;
+        this.splashRange = splashRange;
         this.coolDown = coolDown;
     }
     public bool Throw(Vector3 position)
@@ -28,7 +30,7 @@ public class ThrowSkill : Skill
         {
             Transform itemTransform = hand.GetChild(0);
             itemTransform.parent = null;
-            itemTransform.gameObject.AddComponent<ThrowedUnit>().Init(damagedTag, damage, range);
+            itemTransform.gameObject.AddComponent<ThrowedUnit>().Init(damagedTag, damage, splashRange);
             Player.Instance.StartCoroutine(throwItem(itemTransform, targetPoint, 2.0f, 8f));
             return true;
         }

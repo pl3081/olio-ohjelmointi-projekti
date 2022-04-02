@@ -9,6 +9,7 @@ public class Thrower : Unit
     [SerializeField] float takeRange;
     [SerializeField] float throwRange;
     [SerializeField] int throwDamage;
+    [SerializeField] float splashRange;
     [SerializeField] float throwCoolDown;
     private ThrowerAI _AIController;
     public override AI AIController => _AIController;
@@ -83,7 +84,7 @@ public class Thrower : Unit
     {
         base.Awake();
         SkillList.Add(new TakeSkill(hand, takeRange, throwCoolDown));
-        SkillList.Add(new ThrowSkill(hand, "Enemy", throwRange, throwDamage, throwCoolDown));
+        SkillList.Add(new ThrowSkill(hand, "Enemy", throwRange, throwDamage, splashRange, throwCoolDown));
         _AIController = new ThrowerAI(this);
     }
     protected override void Update()
