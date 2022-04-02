@@ -58,13 +58,8 @@ public class Unit : Humanoid, ISmartObject<AI>
             else
                 return nearestUnit.GetComponent<BasicUnit>();
         }
-        protected void InteractWithUnitAtRange(bool cond, BasicUnit target, float range, Func<BasicUnit,bool> action, Action elseAction)
+        protected void InteractWithUnitAtRange(BasicUnit target, float range, Func<BasicUnit,bool> action)
         {
-            if (!cond)
-            {
-                elseAction();
-                return;
-            }
             if (target == null) return;
             if (Vector3.Distance(unit.transform.position, target.transform.position) < range)
             {
@@ -82,12 +77,13 @@ public class Unit : Humanoid, ISmartObject<AI>
         }
         protected virtual void AttackEnemy()
         {
-            void elseAction()
+            if (cantAttack)
             {
                 if (behavPattern == Behaviour.Aggressive)
                     unit.StopAction();
             }
-            InteractWithUnitAtRange(!cantAttack, unit.AttackTarget, unit.AttackRange, unit.Attack, elseAction);
+            else
+                InteractWithUnitAtRange(unit.AttackTarget, unit.AttackRange, unit.Attack);
         }
         protected virtual void ChooseAttackTarget()
         {

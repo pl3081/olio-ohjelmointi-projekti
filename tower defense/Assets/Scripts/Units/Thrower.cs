@@ -30,12 +30,14 @@ public class Thrower : Unit
         }
         void TakeNearestUnit()
         {
-            InteractWithUnitAtRange(unit.hand.childCount == 0, FindNearestUnit(allies), unit.takeRange, unit.Take, () => { });
+            if(unit.hand.childCount == 0)
+                InteractWithUnitAtRange(FindNearestUnit(allies), unit.takeRange, unit.Take);
         }
         void ThrowToEnemy()
         {
             bool cantThrow = cantAttack || unit.hand.childCount == 0;
-            InteractWithUnitAtRange(!cantThrow, unit.AttackTarget, unit.throwRange, unit.Throw, () => { });
+            if(!cantThrow)
+                InteractWithUnitAtRange(unit.AttackTarget, unit.throwRange, unit.Throw);
         }
         public override void Update()
         {
