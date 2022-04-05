@@ -39,7 +39,7 @@ public class ThrowSkill : Skill
     private AnimationCurve[] buildThrowTrajectory(Vector3 origin, Vector3 target, float throwTime, float throwHeight)
     {
         // Returns array of 3 AnimationCurves: 0/1/2 = X/Y/Z.
-
+        
         // Initalise trajectory array.
         AnimationCurve[] trajectory = new AnimationCurve[3];
         trajectory[0] = new AnimationCurve();
@@ -59,7 +59,7 @@ public class ThrowSkill : Skill
         // End point.
         trajectory[0].AddKey(throwTime, target.x);
         trajectory[1].AddKey(throwTime, target.y);
-        trajectory[2].AddKey(throwTime, target.y);
+        trajectory[2].AddKey(throwTime, target.z);
 
         return trajectory;
     }
