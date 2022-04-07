@@ -92,4 +92,11 @@ public class Thrower : Unit
         base.Update();
         _AIController.Update();
     }
+    private void OnDestroy()
+    {
+        if(hand.childCount != 0)
+        {
+            hand.GetChild(0).parent = null;
+        }
+    }
 }
