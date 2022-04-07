@@ -28,11 +28,13 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     private StatusType status;
     public StatusType Status => status;
     NavMeshAgent navAgent;
+    static readonly int Moving = Animator.StringToHash("Moving");
 
     public bool MoveTo(Vector3 pos)
     {
         StopMoving();
         status = StatusType.Moving;
+        animator.SetBool(Moving, true);
         navAgent.SetDestination(pos);
         return true;
     }
@@ -53,6 +55,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     }
     public void StopMoving()
     {
+        animator.SetBool(Moving, false);
         navAgent.SetDestination(this.transform.position);
         lookPos = Vector3.zero;
     }
@@ -67,6 +70,8 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
         {
             target.HP -= this.attackDamage;
             this.attackCoolDown = this.attackSpeed;
+            int randAttack = Random.Range(1, 3);
+            animator.SetTrigger("Attack" + randAttack);
             return true;
         }
 

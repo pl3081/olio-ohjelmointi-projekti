@@ -5,12 +5,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using static Unit;
 
-public class Unit : Humanoid, ISmartObject<AI>
+public abstract class Unit : Humanoid, ISmartObject<AI>
 {
     [SerializeField] int cost;
     public int Cost => cost;
     private AI _AIController;
+    static readonly int SpeedHash = Animator.StringToHash("AttackSpeed");
     public virtual AI AIController => _AIController;
+    protected virtual List<Unit> Enemies => Area.Enemies;
 
     public class AI
     {
@@ -21,8 +23,6 @@ public class Unit : Humanoid, ISmartObject<AI>
             Passive
         }
         protected Behaviour behavPattern = Behaviour.Defensive;
-
-        protected List<GameObject> enemies => new List<GameObject>(GameObject.FindGameObjectsWithTag("Enemy"));
         private Unit unit;
         protected NavMeshAgent navAgent;
 
@@ -38,13 +38,14 @@ public class Unit : Humanoid, ISmartObject<AI>
             this.behavPattern = pattern;
         }
 
-        protected virtual BasicUnit FindNearestUnit(List<GameObject> units)
+        protected virtual BasicUnit FindNearestUnit(List<Unit> units)
         {
             GameObject nearestUnit = null;
             float nearestDist = Mathf.Infinity;
-            foreach(GameObject obj in units)
+            foreach(Unit selectedUnit in units)
             {
-                if (obj == unit.gameObject)
+                GameObject obj = selectedUnit.gameObject;
+                if (selectedUnit == unit)
                     continue;
                 float distToUnit = Vector3.Distance(unit.transform.position, obj.transform.position);
                 if (distToUnit < nearestDist)
@@ -95,7 +96,7 @@ public class Unit : Humanoid, ISmartObject<AI>
 
             if (distToEnemy > unit.AttackRange)
             {
-                BasicUnit newTarget = FindNearestUnit(enemies);
+                BasicUnit newTarget = FindNearestUnit(unit.Enemies);
                 if (newTarget != null)
                     unit.SetAttackTarget(newTarget);
             }
@@ -113,10 +114,23 @@ public class Unit : Humanoid, ISmartObject<AI>
     {
         base.Awake();
         _AIController = new AI(this);
+        animator.SetFloat(SpeedHash, AttackSpeed);
     }
     protected override void Update()
     {
         base.Update();
         _AIController.Update();
+    }
+    
+    protected override void Die()
+    {
+        base.Die();
+        if (Area.Enemies.Contains(this))
+        {
+            Area.Enemies.Remove(this);
+        } else if (Area.Units.Contains(this))
+        {
+            Area.Units.Remove(this);
+        }
     }
 }

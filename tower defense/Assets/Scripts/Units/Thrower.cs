@@ -16,16 +16,16 @@ public class Thrower : Unit
 
     public class ThrowerAI : AI
     {
-        protected List<GameObject> allies = new List<GameObject>();
+        protected List<Unit> allies = new List<Unit>();
         private Thrower unit;
         public ThrowerAI(Thrower unit) : base(unit)
         {
             this.unit = unit;
 
-            GameObject[] allAllies = GameObject.FindGameObjectsWithTag("Humanoid");
-            foreach (GameObject ally in allAllies)
+            List<Unit> allAllies = Area.Units;
+            foreach (Unit ally in allAllies)
             {
-                if (ally.GetComponent<Thrower>() == null)
+                if (ally.gameObject.GetComponent<Thrower>() == null)
                     allies.Add(ally);
             }
         }

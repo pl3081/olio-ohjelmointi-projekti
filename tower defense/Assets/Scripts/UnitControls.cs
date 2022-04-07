@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
-{ 
-    private List<Unit> ChosenUnits = new List<Unit>();
+{
+    List<Unit> ChosenUnits => Area.Units;
     private List<Vector3> _formation = new List<Vector3>();
     public GameObject unitParent;
     Player player;

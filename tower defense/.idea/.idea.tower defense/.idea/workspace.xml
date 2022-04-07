@@ -2,16 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="103179d8-dfb0-4ba3-912a-c83f10679a8d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Zombie.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Zombie.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.tower defense/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/UI/UnitCard.prefab.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/controllableUnit.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Units/controllableUnit.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Units/throwerUnit.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Units/throwerUnit.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Zombies/_GhoulZombie/Ghoul.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Zombies/_GhoulZombie/Ghoul.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BuyScenario.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main Menu placeholder.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MainMenu.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/UnitList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/UnitList.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Zombies/_GhoulZombie/Ghoul.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Zombies/_GhoulZombie/Ghoul.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Area.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Area.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Humanoid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Humanoid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Unit.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UnitControls.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UnitControls.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Units/Thrower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Units/Thrower.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +26,16 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.7/Editor/Collaborate/Views/Adapters/ListAdapters/ToggleableChangeListAdapter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@1.0.0/Runtime/UI/Core/Layout/CanvasScaler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.29/UnityEngine.TestRunner/TestRunner/Callbacks/PlayModeRunnerCallback.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.7/Tests/Editor/PlasticSCM/Views/IncomingChanges/Gluon/UnityIncomingChangesTreeTests.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.29/UnityEditor.TestRunner/TestLaunchers/PlatformSetup/ApplePlatformSetup.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.7/Tests/Editor/PlasticSCM/Views/IncomingChanges/Developer/UnityIncomingChangesTreeTests.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/UnitControls.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/BasicUnit.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/Unit.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/Humanoid.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/Area.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/Units/Zombie.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.test-framework@1.1.29/UnityEditor.TestRunner/TestLaunchers/PlatformSetup/ApplePlatformSetup.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://D:/tower defense/Assets/Scripts/Enemy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.collab-proxy@1.15.7/Tests/Editor/PlasticSCM/Views/IncomingChanges/Gluon/UnityIncomingChangesTreeTests.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -84,6 +95,7 @@
       <workItem from="1648593054546" duration="3441000" />
       <workItem from="1648749410453" duration="5000" />
       <workItem from="1648749467568" duration="8572000" />
+      <workItem from="1649343647546" duration="2430000" />
     </task>
     <servers />
   </component>
