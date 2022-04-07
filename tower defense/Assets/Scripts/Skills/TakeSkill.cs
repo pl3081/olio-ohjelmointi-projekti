@@ -24,9 +24,7 @@ public class TakeSkill : Skill
         {
             objectToTake.position = hand.position;
             objectToTake.SetParent(hand);
-            objectToTake.GetComponent<NavMeshAgent>().enabled = false;
-            objectToTake.GetComponent<BasicUnit>().enabled = false;
-            objectToTake.GetComponent<BoxCollider>().enabled = false;
+            objectToTake.GetComponent<NavMeshAgent>().isStopped = true;
             return true;
         }
         return false;

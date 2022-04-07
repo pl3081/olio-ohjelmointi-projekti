@@ -13,12 +13,10 @@ public class ThrowedUnit : MonoBehaviour
         this.damagedTag = damagedTag;
         this.splashDamage = splashDamage;
         this.splashRange = splashRange;
-        GetComponent<BoxCollider>().enabled = true;
     }
     public void Land()
     {
-        GetComponent<NavMeshAgent>().enabled = true;
-        GetComponent<BasicUnit>().enabled = true;
+        GetComponent<NavMeshAgent>().isStopped = false;
         GameObject[] damagedUnits = GameObject.FindGameObjectsWithTag(damagedTag);
         foreach (GameObject unit in damagedUnits)
         {
