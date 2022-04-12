@@ -1127,8 +1127,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 803339697}
-        m_TargetAssemblyTypeName: ExitBuying, Assembly-CSharp
-        m_MethodName: Exit
+        m_TargetAssemblyTypeName: Deploy, Assembly-CSharp
+        m_MethodName: LoadMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
