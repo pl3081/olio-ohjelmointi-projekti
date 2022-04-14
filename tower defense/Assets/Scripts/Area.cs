@@ -1,23 +1,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Area : MonoBehaviour
 {
-    bool _areaCleared;
     [SerializeField] int reward;
-    public static List<Unit> Enemies { get; } = new List<Unit>();
-    public static List<Unit> Units { get;  } = new List<Unit>();
-    
-    public bool AreaCleared
+    [SerializeField] Text failText, successText;
+    static Text FailText, SuccessText;
+    public static List<Unit> Enemies, Units;
+    public static int Reward;
+
+    public static void ProcessDeath(Unit unit)
     {
-        get => _areaCleared;
-        set
+        if (Enemies.Contains(unit))
         {
-            _areaCleared = value;
-            if (!_areaCleared) return;
-            SceneManager.LoadScene("BuyScenario");
-            Player.Instance.money += reward;
+            Enemies.Remove(unit);
+            if (Enemies.Count == 0)
+            {
+                SuccessText.enabled = true;
+                Player.Instance.money += Reward;
+                SceneManager.LoadScene("Citybase");
+            }
+        } else if (Units.Contains(unit))
+        {
+            Units.Remove(unit);
+            if (Units.Count == 0)
+            {
+                FailText.enabled = true;
+                SceneManager.LoadScene("Citybase");
+            }
         }
+    }
+    
+    void Awake()
+    {
+        Reward = reward;
+        Enemies = new List<Unit>();
+        Units = new List<Unit>();
+        FailText = failText;
+        SuccessText = successText;
     }
 }
