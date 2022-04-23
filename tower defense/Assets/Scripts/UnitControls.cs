@@ -69,6 +69,31 @@ public class UnitControls : MonoBehaviour
     {
         return rotation * (vector - pivot) + pivot;
     }
+    void AttackCommand(BasicUnit target)
+    {
+        foreach (Unit unit in ChosenUnits)
+        {
+            unit.SetAttackTarget(target);
+            unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
+        }
+    }
+    void MoveCommand(Vector3 position)
+    {
+        Vector3 dirToPoint = new Vector3();
+        foreach (Unit unit in ChosenUnits)
+        {
+            dirToPoint += position - unit.transform.position;
+        }
+        for (int i = 0; i < ChosenUnits.Count; i++)
+        {
+            Vector3 formatedPosition = position + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
+            if (ChosenUnits[i].transform.GetComponent<NavMeshAgent>().enabled)
+            {
+                ChosenUnits[i].MoveTo(formatedPosition);
+                ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
+            }
+        }
+    }
 
     private void Awake()
     {
@@ -88,7 +113,7 @@ public class UnitControls : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -96,28 +121,11 @@ public class UnitControls : MonoBehaviour
             {
                 if(hit.collider.CompareTag("Enemy"))
                 {
-                    foreach (Unit unit in ChosenUnits)
-                    {
-                        unit.SetAttackTarget(hit.transform.GetComponent<BasicUnit>());
-                        unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
-                    }
+                    AttackCommand(hit.transform.GetComponent<BasicUnit>());
                 }
                 else
                 {
-                    Vector3 dirToPoint = new Vector3();
-                    foreach (Unit unit in ChosenUnits)
-                    {
-                        dirToPoint += hit.point - unit.transform.position;
-                    }
-                    for (int i = 0; i < ChosenUnits.Count; i++)
-                    {
-                        Vector3 formatedPosition = hit.point + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
-                        if(ChosenUnits[i].transform.GetComponent<NavMeshAgent>().enabled)
-                        {
-                            ChosenUnits[i].MoveTo(formatedPosition);
-                            ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
-                        }
-                    }
+                    MoveCommand(hit.point);
                 }
             }
         }
