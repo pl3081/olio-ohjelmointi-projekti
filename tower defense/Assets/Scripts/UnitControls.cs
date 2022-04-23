@@ -10,7 +10,18 @@ public class UnitControls : MonoBehaviour
     private List<Vector3> _formation = new List<Vector3>();
     public GameObject unitParent;
     Player player;
-    
+
+    SelectionBox selBox;
+    [Serializable]
+    public class SelectionSettings
+    {
+        public float Thickness;
+        public Canvas Canvas;
+        public Material Material;
+        public Color Color;
+    }
+    public SelectionSettings selectionSettings;
+
     public bool AddUnit(Unit unit)
     {
         if (!IsUnitInList(unit))
@@ -111,6 +122,7 @@ public class UnitControls : MonoBehaviour
 
         Formate(3, 3f);
     }
+    
     void Update()
     {
         if (Input.GetMouseButton(1))
@@ -128,6 +140,21 @@ public class UnitControls : MonoBehaviour
                     MoveCommand(hit.point);
                 }
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            selBox = new SelectionBox(Input.mousePosition, Input.mousePosition, selectionSettings.Canvas,
+                selectionSettings.Thickness, selectionSettings.Color, selectionSettings.Material);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            selBox.EndPosition = Input.mousePosition;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            selBox.Destroy();
+            selBox = null;
         }
     }
 }
