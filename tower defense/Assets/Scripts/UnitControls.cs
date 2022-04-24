@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
 {
-    List<Unit> ControlledUnits => Area.Units;
+    public List<Unit> ControlledUnits => GetControlledUnits(); // todo Area.units
     List<Unit> selectedUnits;
 
     public uint NumInFormationRow = 3;
@@ -26,9 +26,26 @@ public class UnitControls : MonoBehaviour
     }
     public SelectionSettings selectionSettings;
 
+    public List<Unit> GetControlledUnits()
+    {
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Humanoid");
+        List<Unit> controlledUnits = new List<Unit>();
+        foreach(GameObject unit in units)
+        {
+            controlledUnits.Add(unit.GetComponent<Unit>());
+        }
+        return controlledUnits;
+    }
     public void SetNewUnits(List<Unit> newUnits)
     {
         selectedUnits = new List<Unit>(newUnits);
+        foreach(Unit unit in newUnits)
+        {
+            if (!ControlledUnits.Contains(unit))
+            {
+                selectedUnits.Remove(unit);
+            }
+        }
         Formate();
     }
     public bool AddUnit(Unit unit)
