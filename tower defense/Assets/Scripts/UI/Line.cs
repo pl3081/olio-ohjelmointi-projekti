@@ -115,7 +115,6 @@ public class Line
         Vector2 Vector2Abs(Vector2 v) { return new Vector2(Mathf.Abs(v.x), Mathf.Abs(v.y)); }
 
         Vector2 newSize = Vector2Abs(Vector2.Scale(filter, change)) + new Vector2(Thickness, Thickness);
-        Debug.Log(newSize);
         if (newSize.x < Thickness || newSize.y < Thickness)
             newSize = new Vector2(Thickness, Thickness);
 
