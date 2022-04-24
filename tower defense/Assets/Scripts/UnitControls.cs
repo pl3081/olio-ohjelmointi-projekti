@@ -5,17 +5,55 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
-{ 
-    private List<Unit> ChosenUnits = new List<Unit>();
-    private List<Vector3> _formation = new List<Vector3>();
-    public GameObject unitParent;
+{
+    public List<Unit> ControlledUnits => GetControlledUnits(); // todo Area.units
+    List<Unit> selectedUnits;
+
+    public uint NumInFormationRow = 3;
+    public float DistanceBetweenInFormation = 3f;
+    List<Vector3> _formation = new List<Vector3>();
+
     Player player;
-    
+
+    SelectionBox selBox;
+    [Serializable]
+    public class SelectionSettings
+    {
+        public float Thickness;
+        public Canvas Canvas;
+        public Material Material;
+        public Color Color;
+    }
+    public SelectionSettings selectionSettings;
+
+    public List<Unit> GetControlledUnits()
+    {
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Humanoid");
+        List<Unit> controlledUnits = new List<Unit>();
+        foreach(GameObject unit in units)
+        {
+            controlledUnits.Add(unit.GetComponent<Unit>());
+        }
+        return controlledUnits;
+    }
+    public void SetNewUnits(List<Unit> newUnits)
+    {
+        selectedUnits = new List<Unit>(newUnits);
+        foreach(Unit unit in newUnits)
+        {
+            if (!ControlledUnits.Contains(unit))
+            {
+                selectedUnits.Remove(unit);
+            }
+        }
+        Formate();
+    }
     public bool AddUnit(Unit unit)
     {
         if (!IsUnitInList(unit))
         {
-            ChosenUnits.Add(unit);
+            selectedUnits.Add(unit);
+            Formate();
             return true;
         }
         return true;
@@ -24,70 +62,110 @@ public class UnitControls : MonoBehaviour
     {
         if (IsUnitInList(unit))
         {
-            ChosenUnits.Remove(unit);
+            selectedUnits.Remove(unit);
+            Formate();
             return true;
         }
         return false;
     }
     public void ClearUnits()
     {
-        ChosenUnits.Clear();
+        selectedUnits.Clear();
     }
     public bool IsUnitInList(Unit unit)
     {
-        return ChosenUnits.Contains(unit);
+        return selectedUnits.Contains(unit);
+    }
+    private bool CompareLists<T>(List<T> x, List<T> y)
+    {
+        if (x.Count != y.Count)
+            return false;
+        foreach(T element in x)
+        {
+            if (!y.Contains(element))
+                return false;
+        }
+        return true;
+    }
+    private void Formate()
+    {
+        Formate((int)NumInFormationRow, DistanceBetweenInFormation);
     }
     public void Formate(int numInRow, float distanceBetween)
     {
         _formation.Clear();
-        numInRow = Mathf.Min(numInRow, ChosenUnits.Count);
-        int rows = Mathf.CeilToInt(ChosenUnits.Count / (float)numInRow);
+        numInRow = Mathf.Min(numInRow, selectedUnits.Count);
+        int rows = Mathf.CeilToInt(selectedUnits.Count / (float)numInRow);
         int count = 0;
         for(int row = 0; row < rows; row++)
         {
-            if (row * numInRow + numInRow > ChosenUnits.Count)
-                numInRow = ChosenUnits.Count - count;
+            if (row * numInRow + numInRow > selectedUnits.Count)
+                numInRow = selectedUnits.Count - count;
 
             for (int i = 0; i < numInRow; i++)
             {
-                if (count < ChosenUnits.Count)
+                if (count < selectedUnits.Count)
                 {
-                    float xMul = i - (numInRow - 1) / 2f;
-                    float yMul = (rows - 1) / 2f - row;
+                    float xMul = i - (numInRow - 1) * 0.5f;
+                    float yMul = (rows - 1) * 0.5f - row;
                     _formation.Add((Vector3.right * xMul + Vector3.forward * yMul) * distanceBetween);
                     count++;
                 }
             }
         }
     }
-    public void Deformate(Unit unit)
-    {
-        _formation[ChosenUnits.IndexOf(unit)] = Vector3.zero;
-    }
 
     private Vector3 Rotated(Vector3 vector, Quaternion rotation, Vector3 pivot = default(Vector3))
     {
         return rotation * (vector - pivot) + pivot;
+    }
+    void AttackCommand(BasicUnit target)
+    {
+        foreach (Unit unit in selectedUnits)
+        {
+            unit.SetAttackTarget(target);
+            unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
+        }
+    }
+    void MoveCommand(Vector3 position)
+    {
+        Vector3 dirToPoint = new Vector3();
+        foreach (Unit unit in selectedUnits)
+        {
+            dirToPoint += position - unit.transform.position;
+        }
+        for (int i = 0; i < selectedUnits.Count; i++)
+        {
+            Vector3 formatedPosition = position + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
+            if (selectedUnits[i].transform.GetComponent<NavMeshAgent>().enabled)
+            {
+                selectedUnits[i].MoveTo(formatedPosition);
+                selectedUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
+            }
+        }
     }
 
     private void Awake()
     {
         player = Player.Instance;
 
-        foreach(KeyValuePair<GameObject, int> unit in player.Units)
+        selectedUnits = new List<Unit>();
+        foreach (Player.UnitContainer container in player.units)
         {
-            for (int i = 0; i < unit.Value; i++)
+            GameObject unitObject = container.unitObject;
+            for (int i = 0; i < container.amount; i++)
             {
-                GameObject newUnit = Instantiate(unit.Key, new Vector3(i,0,i), Quaternion.identity);
-                ChosenUnits.Add(newUnit.GetComponent<Unit>());
+                GameObject newUnit = Instantiate(unitObject, new Vector3(i,0,i), Quaternion.identity);
+                selectedUnits.Add(newUnit.GetComponent<Unit>());
             }
         }
 
-        Formate(3, 3f);
+        Formate();
     }
+    
     void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -95,27 +173,31 @@ public class UnitControls : MonoBehaviour
             {
                 if(hit.collider.CompareTag("Enemy"))
                 {
-                    foreach (Unit unit in ChosenUnits)
-                    {
-                        unit.SetAttackTarget(hit.transform.GetComponent<BasicUnit>());
-                        unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
-                    }
+                    AttackCommand(hit.transform.GetComponent<BasicUnit>());
                 }
                 else
                 {
-                    Vector3 dirToPoint = new Vector3();
-                    foreach (Unit unit in ChosenUnits)
-                    {
-                        dirToPoint += hit.point - unit.transform.position;
-                    }
-                    for (int i = 0; i < ChosenUnits.Count; i++)
-                    {
-                        Vector3 formatedPosition = hit.point + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
-                        ChosenUnits[i].MoveTo(formatedPosition);
-                        ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
-                    }
+                    MoveCommand(hit.point);
                 }
             }
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            selBox = new SelectionBox(Input.mousePosition, Input.mousePosition, selectionSettings.Canvas,
+                selectionSettings.Thickness, selectionSettings.Color, selectionSettings.Material);
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            selBox.EndPosition = Input.mousePosition;
+            List<Unit> newUnits = selBox.GetObjectsUnderSelection<Unit>();
+            if(!CompareLists(selectedUnits, newUnits))
+                SetNewUnits(newUnits);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            selBox.Destroy();
+            selBox = null;
         }
     }
 }

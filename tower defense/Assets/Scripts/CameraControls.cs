@@ -42,8 +42,8 @@ public class CameraControls : MonoBehaviour
         {
             targetOfView.position += -right * cameraSpeed * Time.deltaTime;
         }
-        // rmb rotating
-        if (Input.GetMouseButton(1))
+        // scroll rotating
+        if (Input.GetMouseButton(2))
         {
             eulerAngle += Vector3.up * sensitivity * mouseX;
             targetOfView.eulerAngles = eulerAngle;

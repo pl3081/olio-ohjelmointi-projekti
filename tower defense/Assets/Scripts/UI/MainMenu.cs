@@ -7,6 +7,11 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("BuyScenario");
+        SceneManager.LoadScene("Citybase");
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }

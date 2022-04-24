@@ -1,36 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UnitList : MonoBehaviour
 {
     Player player;
-    public GameObject cardTemplate;
+    [SerializeField] UnitViewer viewer;
+    [SerializeField] GameObject cardTemplate;
 
-    void Update()
+    void InitCard(Player.UnitContainer container)
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            print("Is down");
-            gameObject.SetActive(!gameObject.activeInHierarchy);
-        }
-    }
-    
-    void InitCard(GameObject unitObject)
-    {
+        GameObject unitObject = container.unitObject;
         GameObject card = Instantiate(cardTemplate, transform);
-        card.name = unitObject.name;
-        var unit = unitObject.GetComponent<Unit>();
-        var button = card.GetComponent<Button>();
-        button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(delegate
-        {
-            player.BuyUnit(unitObject);
-        });
+        card.GetComponent<UnitCard>().Load(unitObject);
     }
     
     void Awake()
     {
         player = Player.Instance;
-        player.BuyableUnits.ForEach(InitCard);
+        player.units.ForEach(InitCard);
     }
 }

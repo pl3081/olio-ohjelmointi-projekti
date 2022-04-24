@@ -8,7 +8,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     [SerializeField] int attackDamage;
     [SerializeField] float attackRange;
     [SerializeField] float attackSpeed; // in seconds
-    [SerializeField] protected List<Skill> SkillList = new List<Skill>();
+    protected List<Skill> SkillList = new List<Skill>();
     public int AttackDamage => attackDamage;
     public float AttackRange => attackRange;
     public float AttackSpeed => attackSpeed;
@@ -28,11 +28,13 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     private StatusType status;
     public StatusType Status => status;
     NavMeshAgent navAgent;
+    static readonly int Moving = Animator.StringToHash("Moving");
 
     public bool MoveTo(Vector3 pos)
     {
-        StopAction();
+        StopMoving();
         status = StatusType.Moving;
+        animator.SetBool(Moving, true);
         navAgent.SetDestination(pos);
         return true;
     }
@@ -53,19 +55,26 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     }
     public void StopMoving()
     {
+        animator.SetBool(Moving, false);
         navAgent.SetDestination(this.transform.position);
         lookPos = Vector3.zero;
     }
     public bool Attack()
     {
-        bool inRange = Vector3.Distance(AttackTarget.transform.position, this.transform.position) < AttackRange;
-        if (attackCoolDown <= 0 && IsFacedTarget(AttackTarget.transform.position) && inRange)
+        return Attack(AttackTarget);
+    }
+    public bool Attack(BasicUnit target)
+    {
+        bool inRange = Vector3.Distance(target.transform.position, this.transform.position) < AttackRange;
+        if (attackCoolDown <= 0 && IsFacedTarget(target.transform.position) && inRange)
         {
-            AttackTarget.HP -= this.attackDamage;
+            target.HP -= this.attackDamage;
             this.attackCoolDown = this.attackSpeed;
+            int randAttack = Random.Range(1, 3);
+            animator.SetTrigger("Attack" + randAttack);
             return true;
         }
-        
+
         return false;
     }
     public bool IsDestination(Vector3 pos)
@@ -81,10 +90,10 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
         Quaternion rotation = Quaternion.LookRotation(dir);
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, rotation, 2f * Time.deltaTime); // todo change magic number by rotation speed var
     }
-    private bool IsFacedTarget(Vector3 destination)
+    public bool IsFacedTarget(Vector3 destination)
     {
         float dot = Vector3.Dot(transform.forward, (destination - transform.position).normalized);
-        return dot > 0.99f;
+        return dot > 0.9f || destination == transform.position;
     }
     
     protected override void Awake()

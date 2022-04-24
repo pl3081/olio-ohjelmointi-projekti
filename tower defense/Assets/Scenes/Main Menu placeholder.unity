@@ -791,7 +791,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: 'Exit
+
+'
 --- !u!222 &1362832693
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -807,6 +809,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
+      propertyPath: units.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
+      propertyPath: units.Array.data[0].unitObject
+      value: 
+      objectReference: {fileID: 3627483304001084773, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
+    - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
+      propertyPath: units.Array.data[1].unitObject
+      value: 
+      objectReference: {fileID: 8752914765748808930, guid: 8ceca7867e10472439e58911c4213b65, type: 3}
     - target: {fileID: 2314882909178403357, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
       propertyPath: m_Name
       value: Player
@@ -1123,7 +1137,7 @@ GameObject:
   - component: {fileID: 2124584614}
   - component: {fileID: 2124584613}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Exit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1192,7 +1206,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2124584614}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1322061939}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: Exit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2124584614
 MonoBehaviour:
   m_ObjectHideFlags: 0
