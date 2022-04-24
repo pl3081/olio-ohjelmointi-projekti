@@ -6,9 +6,13 @@ using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
 {
-    List<Unit> ChosenUnits => Area.Units;
-    private List<Vector3> _formation = new List<Vector3>();
-    public GameObject unitParent;
+    List<Unit> ControlledUnits => Area.Units;
+    List<Unit> selectedUnits;
+
+    public uint NumInFormationRow = 3;
+    public float DistanceBetweenInFormation = 3f;
+    List<Vector3> _formation = new List<Vector3>();
+
     Player player;
 
     SelectionBox selBox;
@@ -22,11 +26,17 @@ public class UnitControls : MonoBehaviour
     }
     public SelectionSettings selectionSettings;
 
+    public void SetNewUnits(List<Unit> newUnits)
+    {
+        selectedUnits = new List<Unit>(newUnits);
+        Formate();
+    }
     public bool AddUnit(Unit unit)
     {
         if (!IsUnitInList(unit))
         {
-            ChosenUnits.Add(unit);
+            selectedUnits.Add(unit);
+            Formate();
             return true;
         }
         return true;
@@ -35,45 +45,57 @@ public class UnitControls : MonoBehaviour
     {
         if (IsUnitInList(unit))
         {
-            ChosenUnits.Remove(unit);
+            selectedUnits.Remove(unit);
+            Formate();
             return true;
         }
         return false;
     }
     public void ClearUnits()
     {
-        ChosenUnits.Clear();
+        selectedUnits.Clear();
     }
     public bool IsUnitInList(Unit unit)
     {
-        return ChosenUnits.Contains(unit);
+        return selectedUnits.Contains(unit);
+    }
+    private bool CompareLists<T>(List<T> x, List<T> y)
+    {
+        if (x.Count != y.Count)
+            return false;
+        foreach(T element in x)
+        {
+            if (!y.Contains(element))
+                return false;
+        }
+        return true;
+    }
+    private void Formate()
+    {
+        Formate((int)NumInFormationRow, DistanceBetweenInFormation);
     }
     public void Formate(int numInRow, float distanceBetween)
     {
         _formation.Clear();
-        numInRow = Mathf.Min(numInRow, ChosenUnits.Count);
-        int rows = Mathf.CeilToInt(ChosenUnits.Count / (float)numInRow);
+        numInRow = Mathf.Min(numInRow, selectedUnits.Count);
+        int rows = Mathf.CeilToInt(selectedUnits.Count / (float)numInRow);
         int count = 0;
         for(int row = 0; row < rows; row++)
         {
-            if (row * numInRow + numInRow > ChosenUnits.Count)
-                numInRow = ChosenUnits.Count - count;
+            if (row * numInRow + numInRow > selectedUnits.Count)
+                numInRow = selectedUnits.Count - count;
 
             for (int i = 0; i < numInRow; i++)
             {
-                if (count < ChosenUnits.Count)
+                if (count < selectedUnits.Count)
                 {
-                    float xMul = i - (numInRow - 1) / 2f;
-                    float yMul = (rows - 1) / 2f - row;
+                    float xMul = i - (numInRow - 1) * 0.5f;
+                    float yMul = (rows - 1) * 0.5f - row;
                     _formation.Add((Vector3.right * xMul + Vector3.forward * yMul) * distanceBetween);
                     count++;
                 }
             }
         }
-    }
-    public void Deformate(Unit unit)
-    {
-        _formation[ChosenUnits.IndexOf(unit)] = Vector3.zero;
     }
 
     private Vector3 Rotated(Vector3 vector, Quaternion rotation, Vector3 pivot = default(Vector3))
@@ -82,7 +104,7 @@ public class UnitControls : MonoBehaviour
     }
     void AttackCommand(BasicUnit target)
     {
-        foreach (Unit unit in ChosenUnits)
+        foreach (Unit unit in selectedUnits)
         {
             unit.SetAttackTarget(target);
             unit.AIController.SetBehaviour(Unit.AI.Behaviour.Aggressive);
@@ -91,17 +113,17 @@ public class UnitControls : MonoBehaviour
     void MoveCommand(Vector3 position)
     {
         Vector3 dirToPoint = new Vector3();
-        foreach (Unit unit in ChosenUnits)
+        foreach (Unit unit in selectedUnits)
         {
             dirToPoint += position - unit.transform.position;
         }
-        for (int i = 0; i < ChosenUnits.Count; i++)
+        for (int i = 0; i < selectedUnits.Count; i++)
         {
             Vector3 formatedPosition = position + Rotated(_formation[i], Quaternion.LookRotation(dirToPoint));
-            if (ChosenUnits[i].transform.GetComponent<NavMeshAgent>().enabled)
+            if (selectedUnits[i].transform.GetComponent<NavMeshAgent>().enabled)
             {
-                ChosenUnits[i].MoveTo(formatedPosition);
-                ChosenUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
+                selectedUnits[i].MoveTo(formatedPosition);
+                selectedUnits[i].AIController.SetBehaviour(Unit.AI.Behaviour.Defensive);
             }
         }
     }
@@ -110,17 +132,18 @@ public class UnitControls : MonoBehaviour
     {
         player = Player.Instance;
 
-        foreach(Player.UnitContainer container in player.units)
+        selectedUnits = new List<Unit>();
+        foreach (Player.UnitContainer container in player.units)
         {
             GameObject unitObject = container.unitObject;
             for (int i = 0; i < container.amount; i++)
             {
                 GameObject newUnit = Instantiate(unitObject, new Vector3(i,0,i), Quaternion.identity);
-                ChosenUnits.Add(newUnit.GetComponent<Unit>());
+                selectedUnits.Add(newUnit.GetComponent<Unit>());
             }
         }
 
-        Formate(3, 3f);
+        Formate();
     }
     
     void Update()
@@ -150,6 +173,9 @@ public class UnitControls : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             selBox.EndPosition = Input.mousePosition;
+            List<Unit> newUnits = selBox.GetObjectsUnderSelection<Unit>();
+            if(!CompareLists(selectedUnits, newUnits))
+                SetNewUnits(newUnits);
         }
         else if (Input.GetMouseButtonUp(0))
         {

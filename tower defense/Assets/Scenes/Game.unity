@@ -944,7 +944,7 @@ GameObject:
   - component: {fileID: 2103634920}
   - component: {fileID: 2103634919}
   - component: {fileID: 2103634923}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1152,7 +1152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c3866990bf483499971c1af8781cdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitParent: {fileID: 1463291062}
+  NumInFormationRow: 3
+  DistanceBetweenInFormation: 2
   selectionSettings:
     Thickness: 2
     Canvas: {fileID: 1287266094}
