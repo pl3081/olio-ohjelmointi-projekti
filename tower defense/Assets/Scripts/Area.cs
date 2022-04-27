@@ -15,9 +15,7 @@ public class Area : MonoBehaviour
     static IEnumerator AreaOver(Behaviour endBehaviour)
     {
         endBehaviour.enabled = true;
-        print("start waiting");
         yield return new WaitForSeconds(5);
-        print("Load scene..");
         SceneManager.LoadScene("Citybase");
     }
 
@@ -29,6 +27,7 @@ public class Area : MonoBehaviour
             if (Enemies.Count == 0)
             {
                 _instance.StartCoroutine(AreaOver(_instance.successBehaviour));
+                Player.Instance.money += _instance.reward;
             }
         } else if (Units.Contains(unit))
         {
