@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -5,11 +6,20 @@ using UnityEngine.UI;
 
 public class Area : MonoBehaviour
 {
+    static Area _instance;
     [SerializeField] int reward;
-    [SerializeField] Text failText, successText;
-    static Text FailText, SuccessText;
+    [SerializeField] Behaviour failBehaviour, successBehaviour;
+    
     public static List<Unit> Enemies, Units;
-    public static int Reward;
+
+    static IEnumerator AreaOver(Behaviour endBehaviour)
+    {
+        endBehaviour.enabled = true;
+        print("start waiting");
+        yield return new WaitForSeconds(5);
+        print("Load scene..");
+        SceneManager.LoadScene("Citybase");
+    }
 
     public static void ProcessDeath(Unit unit)
     {
@@ -18,27 +28,22 @@ public class Area : MonoBehaviour
             Enemies.Remove(unit);
             if (Enemies.Count == 0)
             {
-                SuccessText.enabled = true;
-                Player.Instance.money += Reward;
-                SceneManager.LoadScene("Citybase");
+                _instance.StartCoroutine(AreaOver(_instance.successBehaviour));
             }
         } else if (Units.Contains(unit))
         {
             Units.Remove(unit);
             if (Units.Count == 0)
             {
-                FailText.enabled = true;
-                SceneManager.LoadScene("Citybase");
+                _instance.StartCoroutine(AreaOver(_instance.failBehaviour));
             }
         }
     }
     
     void Awake()
     {
-        Reward = reward;
+        _instance = this;
         Enemies = new List<Unit>();
         Units = new List<Unit>();
-        FailText = failText;
-        SuccessText = successText;
     }
 }
