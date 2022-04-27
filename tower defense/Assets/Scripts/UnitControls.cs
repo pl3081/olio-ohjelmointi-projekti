@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
 {
-    public List<Unit> ControlledUnits => GetControlledUnits(); // todo Area.units
+    public List<Unit> ControlledUnits => Area.Units;
     List<Unit> selectedUnits;
 
     public uint NumInFormationRow = 3;
@@ -157,9 +157,9 @@ public class UnitControls : MonoBehaviour
             {
                 GameObject newUnit = Instantiate(unitObject, new Vector3(i,0,i), Quaternion.identity);
                 selectedUnits.Add(newUnit.GetComponent<Unit>());
+                Area.Units.Add(newUnit.GetComponent<Unit>());
             }
         }
-
         Formate();
     }
     
