@@ -22,6 +22,10 @@ public class Zombie : Unit
     {
         base.Awake();
         _AIController = new ZombieAI(this);
+    }
+
+    void Start()
+    {
         Area.Enemies.Add(this);
     }
     
