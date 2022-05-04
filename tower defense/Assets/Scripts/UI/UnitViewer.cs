@@ -7,6 +7,7 @@ public class UnitViewer : MonoBehaviour
     [SerializeField] Text cost;
     [SerializeField] Text moneyText;
     GameObject _target;
+    Player _player;
 
     public GameObject Target
     {
@@ -28,12 +29,13 @@ public class UnitViewer : MonoBehaviour
     void Start()
     {
         UpdateMoneyText();
+        _player = Player.Instance;
     }
     
     public void Buy()
     {
         if (!_target) return;
-        Player.Instance.BuyUnit(_target);
+        _player.BuyUnit(_player.FindContainer(_target.name));
         UpdateMoneyText();
     }
 }
