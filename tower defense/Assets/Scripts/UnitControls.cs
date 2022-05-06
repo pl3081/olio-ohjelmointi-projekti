@@ -119,8 +119,17 @@ public class UnitControls : MonoBehaviour
     {
         return rotation * (vector - pivot) + pivot;
     }
+    void CheckUnits()
+    {
+        foreach (Unit unit in new List<Unit>(selectedUnits))
+        {
+            if (unit == null)
+                selectedUnits.Remove(unit);
+        }
+    }
     void AttackCommand(BasicUnit target)
     {
+        CheckUnits();
         foreach (Unit unit in selectedUnits)
         {
             unit.SetAttackTarget(target);
@@ -129,6 +138,7 @@ public class UnitControls : MonoBehaviour
     }
     void MoveCommand(Vector3 position)
     {
+        CheckUnits();
         Vector3 dirToPoint = new Vector3();
         foreach (Unit unit in selectedUnits)
         {
