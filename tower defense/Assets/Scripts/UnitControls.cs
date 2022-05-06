@@ -26,16 +26,6 @@ public class UnitControls : MonoBehaviour
     }
     public SelectionSettings selectionSettings;
 
-    public List<Unit> GetControlledUnits()
-    {
-        GameObject[] units = GameObject.FindGameObjectsWithTag("Humanoid");
-        List<Unit> controlledUnits = new List<Unit>();
-        foreach(GameObject unit in units)
-        {
-            controlledUnits.Add(unit.GetComponent<Unit>());
-        }
-        return controlledUnits;
-    }
     public void SetNewUnits(List<Unit> newUnits)
     {
         selectedUnits = new List<Unit>(newUnits);
