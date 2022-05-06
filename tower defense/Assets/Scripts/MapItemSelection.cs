@@ -39,7 +39,7 @@ public class MapItemSelection : MonoBehaviour
                 if (Input.GetMouseButton(0))
                 {
                     Debug.Log("Focus on map item");
-                    SceneManager.LoadScene("Game");
+                    SceneManager.LoadScene("Citybase");
                 }
             }
         }

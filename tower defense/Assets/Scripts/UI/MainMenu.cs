@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("Citybase");
+        SceneManager.LoadScene("map");
     }
 
     public void Exit()
