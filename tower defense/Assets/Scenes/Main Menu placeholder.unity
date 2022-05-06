@@ -816,9 +816,13 @@ PrefabInstance:
     - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
       propertyPath: units.Array.data[0].unitObject
       value: 
-      objectReference: {fileID: 3627483304001084773, guid: 4d31d231b19e80b4e9f170dbb31d7f0e, type: 3}
+      objectReference: {fileID: 6248638464805481070, guid: 2918b1eb76a2f404dbd3fe6e5985cc35, type: 3}
     - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
       propertyPath: units.Array.data[1].unitObject
+      value: 
+      objectReference: {fileID: 7363988225006354095, guid: fbfbfc20a38fc474b9ddb3f3b39a2ac8, type: 3}
+    - target: {fileID: 160708867859112693, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
+      propertyPath: units.Array.data[2].unitObject
       value: 
       objectReference: {fileID: 8752914765748808930, guid: 8ceca7867e10472439e58911c4213b65, type: 3}
     - target: {fileID: 2314882909178403357, guid: c383617b1c70f4e47b9ddbecea785d18, type: 3}
