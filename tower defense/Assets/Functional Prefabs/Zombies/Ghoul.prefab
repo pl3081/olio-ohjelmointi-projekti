@@ -973,11 +973,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 1287881874191671400}
   deathSound: {fileID: 0}
-  maxHP: 150
-  _hp: 15
-  attackDamage: 15
+  maxHP: 20
+  _hp: 0
+  attackDamage: 3
   attackRange: 2
-  attackSpeed: 1
+  attackSpeed: 0.7
   attackSound: {fileID: 0}
   cost: 0
 --- !u!136 &1164665650

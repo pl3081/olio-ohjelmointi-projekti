@@ -3174,7 +3174,7 @@ MonoBehaviour:
   maxHP: 25
   _hp: 0
   attackDamage: 3
-  attackRange: 1
+  attackRange: 2
   attackSpeed: 2
   attackSound: {fileID: 8300000, guid: afac894277f60424a9f6acf8701e5513, type: 3}
   cost: 1
