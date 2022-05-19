@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
             Destroy(gameObject); //destroy testing player
         }
     }
+
+    public int TotalUnits => units.Sum(container => container.amount);
 
     public UnitContainer FindContainer(string targetName)
     {
