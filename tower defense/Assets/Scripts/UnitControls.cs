@@ -150,16 +150,6 @@ public class UnitControls : MonoBehaviour
         player = Player.Instance;
 
         selectedUnits = new List<Unit>();
-        foreach (Player.UnitContainer container in player.units)
-        {
-            GameObject unitObject = container.unitObject;
-            for (int i = 0; i < container.amount; i++)
-            {
-                GameObject newUnit = Instantiate(unitObject, new Vector3(i,0,i), Quaternion.identity);
-                selectedUnits.Add(newUnit.GetComponent<Unit>());
-                Area.Units.Add(newUnit.GetComponent<Unit>());
-            }
-        }
         Formate();
     }
     
