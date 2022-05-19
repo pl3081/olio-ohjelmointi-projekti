@@ -5,8 +5,8 @@ public class UnitPlacer : MonoBehaviour
 {
     [SerializeField] LayerMask targetLayer;
     [SerializeField] UnitControls unitControls;
-    Player _player;
-    Camera _cam;
+    Player player;
+    Camera cam;
 
     public class UnitSelection
     {
@@ -40,11 +40,11 @@ public class UnitPlacer : MonoBehaviour
 
     public readonly UnitSelection Selection = new UnitSelection();
 
-    void Awake()
+    void Start()
     {
-        _cam = GetComponent<Camera>();
+        cam = GetComponent<Camera>();
         unitControls = GetComponent<UnitControls>();
-        _player = Player.Instance;
+        player = Player.Instance;
     }
 
     public void SetTarget(GameObject target)
@@ -59,7 +59,7 @@ public class UnitPlacer : MonoBehaviour
         GameObject preview = Selection.Preview;
         if (!preview) return;
         Vector3 mousePos = Input.mousePosition;
-        Ray ray = _cam.ScreenPointToRay(mousePos);
+        Ray ray = cam.ScreenPointToRay(mousePos);
         if (Physics.Raycast(ray, out RaycastHit rayHit, float.MaxValue, targetLayer))
         {
             Vector3 point = rayHit.point;
@@ -68,7 +68,7 @@ public class UnitPlacer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return)) //enter is return
         {
-            if (!_player.RemoveUnit(Selection.Container))
+            if (!player.RemoveUnit(Selection.Container))
             { 
                 return;
             }
