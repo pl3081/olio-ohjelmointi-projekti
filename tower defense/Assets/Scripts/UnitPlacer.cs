@@ -53,6 +53,21 @@ public class UnitPlacer : MonoBehaviour
         if (targetContainer.amount <= 0) return;
         Selection.Set(target);
     }
+
+    void Place()
+    {
+        if (!player.RemoveUnit(Selection.Container))
+        { 
+            return;
+        }
+
+        var newUnit = Selection.Preview.GetComponent<Unit>();
+        newUnit.enabled = true;
+            
+        Selection.Clean();
+        Area.Units.Add(newUnit);
+        unitControls.AddUnit(newUnit);
+    }
     
     void Update()
     {
@@ -67,17 +82,6 @@ public class UnitPlacer : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.Return)) //enter is return
-        {
-            if (!player.RemoveUnit(Selection.Container))
-            { 
-                return;
-            }
-
-            var newUnit = preview.GetComponent<Unit>();
-            newUnit.enabled = true;
-            
-            Selection.Clean();
-            unitControls.AddUnit(newUnit);
-        }
+            Place();
     }
 }
