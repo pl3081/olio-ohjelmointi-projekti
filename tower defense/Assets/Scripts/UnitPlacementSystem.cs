@@ -12,7 +12,8 @@ public class UnitPlacementSystem : MonoBehaviour
 
     public void SetTarget(GameObject newTarget)
     {
-        if (_placer.Preview && newTarget.name == $"{_placer.Preview.name}(Clone)")
+        GameObject selectionPreview = _placer.Selection.Preview;
+        if (selectionPreview && newTarget.name == $"{selectionPreview.name}(Clone)")
         {
             return;
         }
@@ -22,7 +23,7 @@ public class UnitPlacementSystem : MonoBehaviour
 
     public void Disable()
     {
-        _placer.Clear();
+        _placer.Selection.Clear();
         _placer.enabled = false;
     }
 }
