@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -9,7 +8,8 @@ public class BuyList : UnitList
 
     protected override void InitCard(Player.UnitContainer container)
     {
-        GameObject clone = base.CreateCard(container);
+        GameObject clone = CreateCard(container);
+        print(container.unitObject.name);
         var button = clone.GetComponent<Button>();
         button.onClick.AddListener(() => 
         {
@@ -20,7 +20,9 @@ public class BuyList : UnitList
         {
             eventID = EventTriggerType.PointerEnter
         };
-        eventType.callback.AddListener((eventData) => { viewer.Target = clone.GetComponent<Unit>(); });
+
+        Unit targetUnit = container.unitObject.GetComponent<Unit>();
+        eventType.callback.AddListener((eventData) => { viewer.Target = targetUnit; });
         
         EventTrigger trigger = clone.AddComponent<EventTrigger>();
         trigger.triggers.Add(eventType);
