@@ -14,7 +14,7 @@ public class Area : MonoBehaviour
 
     static IEnumerator AreaOver(Behaviour endBehaviour)
     {
-        endBehaviour.enabled = true;
+        endBehaviour.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene("Citybase");
     }

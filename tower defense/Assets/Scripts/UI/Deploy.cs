@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class Deploy : MonoBehaviour
 {
-    public void LoadMap()
+    public void LoadMap(string map)
     {
-        SceneManager.LoadScene("map");
+        SceneManager.LoadScene(map);
     }
 }
