@@ -5,6 +5,9 @@ public class Deploy : MonoBehaviour
 {
     public void LoadMap(string map)
     {
-        SceneManager.LoadScene(map);
+        if (Player.Instance.TotalUnits > 0)
+        {
+            SceneManager.LoadScene(map);
+        }
     }
 }
