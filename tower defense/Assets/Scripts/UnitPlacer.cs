@@ -22,6 +22,7 @@ public class UnitPlacer : MonoBehaviour
             
             Container = Player.Instance.FindContainer(target.name);
             Preview = Instantiate(target, Vector3.zero, Quaternion.identity);
+            Preview.name = target.name;
             Preview.GetComponent<Unit>().enabled = false;
         }
         
@@ -43,7 +44,6 @@ public class UnitPlacer : MonoBehaviour
     void Start()
     {
         cam = GetComponent<Camera>();
-        unitControls = GetComponent<UnitControls>();
         player = Player.Instance;
     }
 
