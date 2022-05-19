@@ -1789,7 +1789,7 @@ GameObject:
   - component: {fileID: 6159875512989982339}
   - component: {fileID: 4453161493138074397}
   m_Layer: 0
-  m_Name: Machinegunner
+  m_Name: Machine Gunner
   m_TagString: Humanoid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
