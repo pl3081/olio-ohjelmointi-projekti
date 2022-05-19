@@ -15,8 +15,16 @@ public class UnitViewer : MonoBehaviour
         set
         {
             _target = value;
-            unitName.text = value.name;
-            cost.text = "Price: " + value.Cost;
+            if (value == null)
+            {
+                unitName.text = "";
+                cost.text = "";
+            }
+            else
+            {
+                unitName.text = value.name;
+                cost.text = "Price: " + value.Cost;
+            }
         }
     }
 

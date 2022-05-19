@@ -7,17 +7,14 @@ public abstract class UnitList : MonoBehaviour
 
     protected GameObject CreateCard(Player.UnitContainer container)
     {
-        GameObject unitObject = container.unitObject;
         GameObject clone = Instantiate(cardTemplate.gameObject, transform);
-        cardTemplate.Load(unitObject);
+        clone.name = container.unitObject.name;
+        clone.GetComponent<UnitCard>().Load(container.unitObject);
         return clone;
     }
-    
-    protected virtual void InitCard(Player.UnitContainer container)
-    {
 
-    }
-    
+    protected abstract void InitCard(Player.UnitContainer container);
+
     void Start()
     {
         _player = Player.Instance;
