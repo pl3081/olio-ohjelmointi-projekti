@@ -32,7 +32,7 @@ public class Area : MonoBehaviour
         } else if (Units.Contains(unit))
         {
             Units.Remove(unit);
-            if (Units.Count == 0)
+            if (Units.Count == 0 && Player.Instance.TotalUnits == 0)
             {
                 _instance.StartCoroutine(AreaOver(_instance.failBehaviour));
             }
