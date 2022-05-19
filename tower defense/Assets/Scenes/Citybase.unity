@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardTemplate: {fileID: 1701284276, guid: 097e72dce0c8a354d9a0c2f9f287d7a2, type: 3}
-  viewer: {fileID: 869747262}
+  viewer: {fileID: 1621756597}
 --- !u!114 &390685810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,7 +1327,6 @@ GameObject:
   - component: {fileID: 869747261}
   - component: {fileID: 869747264}
   - component: {fileID: 869747263}
-  - component: {fileID: 869747262}
   m_Layer: 5
   m_Name: UnitViewer
   m_TagString: Untagged
@@ -1356,21 +1355,6 @@ RectTransform:
   m_AnchoredPosition: {x: 897.2651, y: 0}
   m_SizeDelta: {x: -1952.5303, y: -300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &869747262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 869747260}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f712138a37e0774684fc5b0fd87ec80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitName: {fileID: 893063990}
-  cost: {fileID: 2121543906}
-  moneyText: {fileID: 1676574055}
 --- !u!114 &869747263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2167,6 +2151,7 @@ GameObject:
   - component: {fileID: 1621756594}
   - component: {fileID: 1621756593}
   - component: {fileID: 1621756596}
+  - component: {fileID: 1621756597}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -2241,6 +2226,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: 98
   target: {fileID: 479017665}
+--- !u!114 &1621756597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621756592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f712138a37e0774684fc5b0fd87ec80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitName: {fileID: 893063990}
+  cost: {fileID: 2121543906}
+  moneyText: {fileID: 1676574055}
 --- !u!1 &1676574053
 GameObject:
   m_ObjectHideFlags: 0
