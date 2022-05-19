@@ -29,25 +29,23 @@ public class Player : MonoBehaviour
         }
     }
 
-    UnitContainer FindContainer(GameObject objectUnit)
+    public UnitContainer FindContainer(string targetName)
     {
-        return units.Find(container => container.unitObject == objectUnit);
+        return units.Find(container => container.unitObject.name == targetName);
     }
     
-    public void BuyUnit(GameObject objectUnit)
+    public void BuyUnit(UnitContainer container)
     {
-        var unit = objectUnit.GetComponent<Unit>();
+        var unit = container.unitObject.GetComponent<Unit>();
         if (unit.Cost > money) return;
         money -= unit.Cost;
-        UnitContainer targetContainer = FindContainer(objectUnit);
-        targetContainer.amount += 1;
+        container.amount += 1;
     }
-
-    public void DeployUnit(GameObject objectUnit, Vector3 position)
+    
+    public bool RemoveUnit(UnitContainer targetContainer)
     {
-        UnitContainer targetContainer = FindContainer(objectUnit);
-        if (1 > targetContainer.amount) return;
+        if (1 > targetContainer.amount) return false;
         targetContainer.amount--;
-        Instantiate(objectUnit, position, Quaternion.identity);
+        return true;
     }
 }

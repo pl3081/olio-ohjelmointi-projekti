@@ -1,21 +1,23 @@
 using UnityEngine;
 
-public class UnitList : MonoBehaviour
+public abstract class UnitList : MonoBehaviour
 {
-    Player player;
-    [SerializeField] UnitViewer viewer;
-    [SerializeField] GameObject cardTemplate;
+    Player _player;
+    [SerializeField] protected UnitCard cardTemplate;
 
-    void InitCard(Player.UnitContainer container)
+    protected GameObject CreateCard(Player.UnitContainer container)
     {
-        GameObject unitObject = container.unitObject;
-        GameObject card = Instantiate(cardTemplate, transform);
-        card.GetComponent<UnitCard>().Load(unitObject);
+        GameObject clone = Instantiate(cardTemplate.gameObject, transform);
+        clone.name = container.unitObject.name;
+        clone.GetComponent<UnitCard>().Load(container.unitObject);
+        return clone;
     }
-    
-    void Awake()
+
+    protected abstract void InitCard(Player.UnitContainer container);
+
+    void Start()
     {
-        player = Player.Instance;
-        player.units.ForEach(InitCard);
+        _player = Player.Instance;
+        _player.units.ForEach(InitCard);
     }
 }

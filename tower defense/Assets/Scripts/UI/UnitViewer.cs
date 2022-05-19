@@ -6,17 +6,25 @@ public class UnitViewer : MonoBehaviour
     [SerializeField] Text unitName;
     [SerializeField] Text cost;
     [SerializeField] Text moneyText;
-    GameObject _target;
+    Unit _target;
+    Player _player;
 
-    public GameObject Target
+    public Unit Target
     {
         get => _target;
         set
         {
             _target = value;
-            Unit targetUnit = Target.GetComponent<Unit>();
-            unitName.text = targetUnit.name;
-            cost.text = "Price: " + targetUnit.Cost;
+            if (value == null)
+            {
+                unitName.text = "";
+                cost.text = "";
+            }
+            else
+            {
+                unitName.text = value.name;
+                cost.text = "Price: " + value.Cost;
+            }
         }
     }
 
@@ -28,12 +36,12 @@ public class UnitViewer : MonoBehaviour
     void Start()
     {
         UpdateMoneyText();
+        _player = Player.Instance;
     }
     
-    public void Buy()
+    public void Buy(Player.UnitContainer toBuy)
     {
-        if (!_target) return;
-        Player.Instance.BuyUnit(_target);
+        _player.BuyUnit(toBuy);
         UpdateMoneyText();
     }
 }
