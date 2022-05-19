@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,6 +16,11 @@ public class Area : MonoBehaviour
     static IEnumerator AreaOver(Behaviour endBehaviour)
     {
         endBehaviour.gameObject.SetActive(true);
+        foreach (Player.UnitContainer container in from container in Player.Instance.units from livingUnit in Units where livingUnit.gameObject.name == container.unitObject.name select container)
+        {
+            container.amount += 1;
+        }
+        
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene("Citybase");
     }
