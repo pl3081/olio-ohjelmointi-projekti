@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class UnitControls : MonoBehaviour
 {
-    public List<Unit> ControlledUnits => GetControlledUnits(); // todo Area.units
+    public List<Unit> ControlledUnits => Area.Units;
     List<Unit> selectedUnits;
 
     public uint NumInFormationRow = 3;
@@ -26,16 +26,6 @@ public class UnitControls : MonoBehaviour
     }
     public SelectionSettings selectionSettings;
 
-    public List<Unit> GetControlledUnits()
-    {
-        GameObject[] units = GameObject.FindGameObjectsWithTag("Humanoid");
-        List<Unit> controlledUnits = new List<Unit>();
-        foreach(GameObject unit in units)
-        {
-            controlledUnits.Add(unit.GetComponent<Unit>());
-        }
-        return controlledUnits;
-    }
     public void SetNewUnits(List<Unit> newUnits)
     {
         selectedUnits = new List<Unit>(newUnits);
@@ -119,8 +109,17 @@ public class UnitControls : MonoBehaviour
     {
         return rotation * (vector - pivot) + pivot;
     }
+    void CheckUnits()
+    {
+        foreach (Unit unit in new List<Unit>(selectedUnits))
+        {
+            if (unit == null)
+                selectedUnits.Remove(unit);
+        }
+    }
     void AttackCommand(BasicUnit target)
     {
+        CheckUnits();
         foreach (Unit unit in selectedUnits)
         {
             unit.SetAttackTarget(target);
@@ -129,6 +128,7 @@ public class UnitControls : MonoBehaviour
     }
     void MoveCommand(Vector3 position)
     {
+        CheckUnits();
         Vector3 dirToPoint = new Vector3();
         foreach (Unit unit in selectedUnits)
         {
@@ -150,16 +150,6 @@ public class UnitControls : MonoBehaviour
         player = Player.Instance;
 
         selectedUnits = new List<Unit>();
-        foreach (Player.UnitContainer container in player.units)
-        {
-            GameObject unitObject = container.unitObject;
-            for (int i = 0; i < container.amount; i++)
-            {
-                GameObject newUnit = Instantiate(unitObject, new Vector3(i,0,i), Quaternion.identity);
-                selectedUnits.Add(newUnit.GetComponent<Unit>());
-            }
-        }
-
         Formate();
     }
     

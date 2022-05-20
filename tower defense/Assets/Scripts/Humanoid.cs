@@ -18,6 +18,7 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     Vector3 lookPos;
     BasicUnit attackTarget;
     public BasicUnit AttackTarget => attackTarget;
+    [SerializeField] AudioClip attackSound;
 
     public enum StatusType
     {
@@ -72,6 +73,8 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
             this.attackCoolDown = this.attackSpeed;
             int randAttack = Random.Range(1, 3);
             animator.SetTrigger("Attack" + randAttack);
+            if(!audioSource.isPlaying)
+                audioSource.Play();
             return true;
         }
 
@@ -93,12 +96,13 @@ public class Humanoid : BasicUnit, IMovingObject, IAttackingObject
     public bool IsFacedTarget(Vector3 destination)
     {
         float dot = Vector3.Dot(transform.forward, (destination - transform.position).normalized);
-        return dot > 0.9f || destination == transform.position;
+        return dot > 0.95f || destination == transform.position;
     }
     
     protected override void Awake()
     {
         base.Awake();
+        audioSource.clip = attackSound;
         status = StatusType.Stopped;
         navAgent = GetComponent<NavMeshAgent>();
     }

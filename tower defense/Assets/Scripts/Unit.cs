@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using static Unit;
 
 public abstract class Unit : Humanoid, ISmartObject<AI>
@@ -125,12 +126,6 @@ public abstract class Unit : Humanoid, ISmartObject<AI>
     protected override void Die()
     {
         base.Die();
-        if (Area.Enemies.Contains(this))
-        {
-            Area.Enemies.Remove(this);
-        } else if (Area.Units.Contains(this))
-        {
-            Area.Units.Remove(this);
-        }
+        Area.ProcessDeath(this);
     }
 }

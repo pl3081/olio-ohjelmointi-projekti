@@ -10,6 +10,9 @@ public class BasicUnit : MonoBehaviour, IDestructableObject
     protected Animator animator;
     protected static readonly int DeathHash = Animator.StringToHash("Death");
 
+    [SerializeField] protected AudioSource audioSource;
+    [SerializeField] AudioClip deathSound;
+
     [SerializeField] protected int maxHP;
     public int MaxHP => maxHP;
 
@@ -42,6 +45,7 @@ public class BasicUnit : MonoBehaviour, IDestructableObject
         gameObject.tag = "Corpse";
         animator.SetTrigger(DeathHash);
         healthBar.Delete();
+        audioSource.PlayOneShot(deathSound);
         Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
     }
     protected virtual void Awake()
